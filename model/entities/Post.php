@@ -1,5 +1,5 @@
 <?php
-    namespace odel\Entities;
+    namespace Model\Entities;
 
     use App\Entity;
 
