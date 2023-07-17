@@ -26,7 +26,9 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   PRIMARY KEY (`id_categorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.categorie : ~0 rows (environ)
+-- Listage des données de la table forum_fred.categorie : ~1 rows (environ)
+INSERT INTO `categorie` (`id_categorie`, `nom`) VALUES
+	(1, 'Sport');
 
 -- Listage de la structure de table forum_fred. post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -60,7 +62,10 @@ CREATE TABLE IF NOT EXISTS `topic` (
   CONSTRAINT `FK_sujet_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.topic : ~0 rows (environ)
+-- Listage des données de la table forum_fred.topic : ~2 rows (environ)
+INSERT INTO `topic` (`id_topic`, `categorie_id`, `user_id`, `titre`, `message`, `creationdate`, `closed`) VALUES
+	(1, 1, 1, 'testTitre', 'testMessage', '2023-07-17 16:07:47', 0),
+	(2, 1, 1, 'test2', 'test2Message', '2023-07-17 16:08:11', 0);
 
 -- Listage de la structure de table forum_fred. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -73,7 +78,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.user : ~0 rows (environ)
+-- Listage des données de la table forum_fred.user : ~1 rows (environ)
+INSERT INTO `user` (`id_user`, `nickname`, `email`, `password`, `creationdate`, `role`) VALUES
+	(1, 'test', 'test', 'test', '2023-07-17 16:07:25', 'ROLE_USER');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
