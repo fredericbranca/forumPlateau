@@ -6,8 +6,10 @@
     final class Topic extends Entity{
 
         private $id;
-        private $title;
+        private $categorie;
         private $user;
+        private $titre;
+        private $contenu;
         private $creationdate;
         private $closed;
 
@@ -36,25 +38,25 @@
         }
 
         /**
-         * Get the value of title
+         * Get the value of categorie
          */ 
-        public function getTitle()
+        public function getCategorie()
         {
-                return $this->title;
+                return $this->categorie;
         }
 
         /**
-         * Set the value of title
+         * Set the value of categorie
          *
          * @return  self
          */ 
-        public function setTitle($title)
+        public function setCategorie($categorie)
         {
-                $this->title = $title;
+                $this->categorie = $categorie;
 
                 return $this;
         }
-
+        
         /**
          * Get the value of user
          */ 
@@ -74,12 +76,61 @@
 
                 return $this;
         }
+        
+        /**
+         * Get the value of titre
+         */ 
+        public function getTitre()
+        {
+                return $this->titre;
+        }
 
+        /**
+         * Set the value of titre
+         *
+         * @return  self
+         */ 
+        public function setTitre($titre)
+        {
+                $this->titre = $titre;
+                
+                return $this;
+        }
+
+        /**
+         * Get the value of contenu
+         */ 
+        public function getContenu()
+        {
+                return $this->contenu;
+        }
+
+        /**
+         * Set the value of contenu
+         *
+         * @return  self
+         */ 
+        public function setContenu($contenu)
+        {
+                $this->contenu = $contenu;
+
+                return $this;
+        }
+        
+
+        /**
+         * Get the value of creationdate
+         */ 
         public function getCreationdate(){
             $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
+        /**
+         * Set the value of creationdate
+         *
+         * @return  self
+         */ 
         public function setCreationdate($date){
             $this->creationdate = new \DateTime($date);
             return $this;
