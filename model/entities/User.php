@@ -12,7 +12,7 @@
         private $creationdate;
         private $role;
 
-        public function __construct($date) {
+        public function __construct($data) {
             $this->hydrate($data);
         }
 
