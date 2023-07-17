@@ -1,6 +1,8 @@
 <?php
 
 $topics = $result["data"]['topics'];
+// var_dump($topics);
+// die();
 
 ?>
 
@@ -10,7 +12,7 @@ $topics = $result["data"]['topics'];
 if (!empty($topics)) {
     foreach ($topics as $topic) {
     ?>
-        <p><?= $topic->getTitre() ?></p>
+        <p><?= $topic->getTitre()." ".$topic->getUser() ?></p>
     <?php
     }
 } else {
