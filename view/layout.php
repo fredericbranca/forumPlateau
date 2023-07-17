@@ -19,7 +19,7 @@
             <header>
                 <nav>
                     <div id="nav-left">
-                        <a href="/">Accueil</a>
+                        <a href="index.php">Accueil</a>
                         <?php
                         if(App\Session::isAdmin()){
                             ?>
@@ -42,7 +42,8 @@
                             ?>
                             <a href="./view/security/login.php">Connexion</a>
                             <a href="/security/register.html">Inscription</a>
-                            <a href="index.php?ctrl=forum&action=listTopics">la liste des topics</a>
+                            <a href="index.php?ctrl=forum&action=listTopics">La liste des Topics</a>
+                            <a href="index.php?ctrl=categorie&action=listCaterogies">La liste des Catégories</a>
                         <?php
                         }
                    
@@ -57,7 +58,7 @@
             </main>
         </div>
         <footer>
-            <p>&copy; 2020 - Forum CDA - <a href="/home/forumRules.html">Règlement du forum</a> - <a href="">Mentions légales</a></p>
+            <p>&copy; 2020 - <?= date('Y') ?> - Forum CDA - <a href="/home/forumRules.html">Règlement du forum</a> - <a href="">Mentions légales</a></p>
             <!--<button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois-->
         </footer>
     </div>
