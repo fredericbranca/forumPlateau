@@ -15,7 +15,7 @@
            $categorieManager = new CategorieManager();
 
             return [
-                "view" => VIEW_DIR."categorie/listCategories.php",
+                "view" => VIEW_DIR."forum\listCategories.php",
                 "data" => [
                     "categories" => $categorieManager->findAll(["nom", "DESC"])
                 ]
