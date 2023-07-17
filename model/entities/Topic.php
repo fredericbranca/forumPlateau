@@ -9,7 +9,7 @@
         private $categorie;
         private $user;
         private $titre;
-        private $contenu;
+        private $message;
         private $creationdate;
         private $closed;
 
@@ -98,21 +98,21 @@
         }
 
         /**
-         * Get the value of contenu
+         * Get the value of message
          */ 
-        public function getContenu()
+        public function getMessage()
         {
-                return $this->contenu;
+                return $this->message;
         }
 
         /**
-         * Set the value of contenu
+         * Set the value of message
          *
          * @return  self
          */ 
-        public function setContenu($contenu)
+        public function setMessage($message)
         {
-                $this->contenu = $contenu;
+                $this->message = $message;
 
                 return $this;
         }
