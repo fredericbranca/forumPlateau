@@ -1,0 +1,17 @@
+.topicMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.topicMessage, .premierMessage {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid black;
+}
+
+.premierMessage {
+    margin-bottom: 100px;
+}
