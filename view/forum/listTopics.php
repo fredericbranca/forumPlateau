@@ -1,10 +1,25 @@
 <?php
 
+// Liste des topics ou liste des topics par catégorie
 $topics = $result["data"]['topics'];
+
+// Si une catégorie est sélectionné, donne à $catégorie le contenu categorie par ID
+if(isset($result["data"]["categorie"])) {
+    $categorie = $result["data"]["categorie"];
+}
 
 ?>
 
-<h1>liste topics</h1>
+<h1>Liste des topics
+    <?php
+    // Affiche la catégorie si la page est trié par catégorie
+    if (!empty($categorie)) {
+        echo " - Catégorie : " . $categorie->getNom();
+    }
+    ?>
+</h1>
+
+<a href="index.php?ctrl=topic&action=createTopic">Créer une nouvelle discussion</a>
 
 <table class="topics-table">
     <thead>
@@ -38,5 +53,5 @@ $topics = $result["data"]['topics'];
             echo "Aucun topic existant.";
         }
 
-$style = "topics";
+        $style = "topics";
 ?>
