@@ -20,3 +20,12 @@
 .topics-table tr:hover {
     background-color: #f3eed8;
 }
+
+/* Formulaire pour créer une discussion */
+
+.formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: fit-content;
+}
