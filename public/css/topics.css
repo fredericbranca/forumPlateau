@@ -1,0 +1,22 @@
+.topics-table {
+    border-collapse: collapse;
+}
+
+.topics-table th {
+    background-color: #f2f2f2;
+}
+
+.topics-table th,
+.topics-table td {
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.topics-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.topics-table tr:hover {
+    background-color: #f3eed8;
+}
