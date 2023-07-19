@@ -6,6 +6,7 @@ use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\TopicManager;
+use Model\Managers\CategorieManager;
 
 class TopicController extends AbstractController implements ControllerInterface
 {
@@ -26,12 +27,25 @@ class TopicController extends AbstractController implements ControllerInterface
     {
 
         $topicManager = new TopicManager();
+        $categorieManager = new CategorieManager();
 
         return [
             "view" => VIEW_DIR . "forum\listTopics.php",
             "data" => [
-                "topics" => $topicManager->findTopicsByCategorie($id)
+                "topics" => $topicManager->findTopicsByCategorie($id),
+                "categorie" => $categorieManager->findOneById($id)
             ]
+        ];
+    }
+
+    public function createTopic()
+    {
+
+        // $topicManager = new TopicManager();
+        // $postManager = new PostManager();
+
+        return [
+            "view" => VIEW_DIR . "forum\createTopic.php"
         ];
     }
 }
