@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `id_categorie` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
   PRIMARY KEY (`id_categorie`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.categorie : ~1 rows (environ)
 INSERT INTO `categorie` (`id_categorie`, `nom`) VALUES
@@ -42,9 +42,12 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
   CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.post : ~0 rows (environ)
+-- Listage des données de la table forum_fred.post : ~2 rows (environ)
+INSERT INTO `post` (`id_message`, `topic_id`, `user_id`, `message`, `creationdate`) VALUES
+	(1, 2, 1, 'Bonjour', '2023-07-19 09:08:22'),
+	(2, 2, 1, 'Test 2', '2023-07-19 09:08:38');
 
 -- Listage de la structure de table forum_fred. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -60,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `cat_id` (`categorie_id`) USING BTREE,
   CONSTRAINT `FK_sujet_categorie` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`),
   CONSTRAINT `FK_sujet_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.topic : ~2 rows (environ)
 INSERT INTO `topic` (`id_topic`, `categorie_id`, `user_id`, `titre`, `message`, `creationdate`, `closed`) VALUES
@@ -76,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `creationdate` datetime DEFAULT CURRENT_TIMESTAMP,
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'ROLE_USER',
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.user : ~1 rows (environ)
 INSERT INTO `user` (`id_user`, `nickname`, `email`, `password`, `creationdate`, `role`) VALUES
