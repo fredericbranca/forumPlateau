@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\TopicManager;
@@ -61,7 +62,7 @@ class TopicController extends AbstractController implements ControllerInterface
                 $this->redirectTo('post', 'listPostsByTopic', $idTopic);
 
             } else {
-                $_SESSION['error'] = "<div class='message'>Filtres non ok</div>";
+                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
                 $this->redirectTo('topic', 'createTopic');
             }
         }
