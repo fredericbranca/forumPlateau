@@ -1,3 +1,10 @@
+[class^="modifier-topicMessage"]{
+    display: none;
+}
+[class^="afficher-topicMessage"]{
+    display: block;
+}
+
 .topicMessages {
     display: flex;
     flex-direction: column;
@@ -14,11 +21,4 @@
 
 .premierMessage {
     margin-bottom: 100px;
-}
-
-.modifier-topicMessage {
-    display: none;
-}
-.afficher-topicMessage {
-    display: block;
 }
