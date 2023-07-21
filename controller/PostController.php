@@ -22,9 +22,8 @@ class PostController extends AbstractController implements ControllerInterface
         $postManager = new PostManager();
         $topicManager = new TopicManager();
 
-        
-        // Répondre à un topic
 
+        // Répondre à un topic
         if (isset($_POST['answerTopic']) && isset($_GET['id'])) {
 
             // Filtres
@@ -39,7 +38,6 @@ class PostController extends AbstractController implements ControllerInterface
                 $postManager->add($data);
                 // Redirection
                 $this->redirectTo('post', 'listPostsByTopic', $topicId);
-
             } else {
                 SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
                 $this->redirectTo('post', 'listPostsByTopic', $topicId);
