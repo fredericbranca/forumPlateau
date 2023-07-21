@@ -26,4 +26,18 @@
             );
         }
 
+        public function updatePostMessage($message, $messageId) {
+
+            $sql = "UPDATE ".$this->tableName."
+                    SET message = '" . $message . "'
+                    WHERE id_post = :id_post";
+
+            try{
+                return DAO::update($sql, ['id_post' => $messageId]);
+            }
+            catch(\PDOException $e){
+                echo $e->getMessage();
+                die();
+            }
+        }
     }
