@@ -34,8 +34,16 @@ if (!empty($posts)) {
             <div class="topicMessage">
                 <div><?= $post->getUser() ?></div>
                 <div>le <?= $post->getCreationdate() ?></div>
-                <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
-                <a href="index.php?ctrl=post&action=modifyPost&id=<?= $post->getId() ?>">Modifier</a>
+                <div class="afficher-topicMessage<?= $post->getId() ?>">
+                    <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
+                    <button onclick="changeStyle('afficher-topicMessage<?= $post->getId() ?>', 'modifier-topicMessage<?= $post->getId() ?>')">
+                        Modifier
+                    </button>
+                </div>
+                <form class="modifier-topicMessage<?= $post->getId() ?>" method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
+                    <input class="post" name="message" value="<?= $post->getMessage() ?>">
+                    <button class="formulaire-btn" type="submit" name="modifyTopicMessage" id="submit">Modifier le message</button>
+                </form>
             </div>
         <?php
         }
