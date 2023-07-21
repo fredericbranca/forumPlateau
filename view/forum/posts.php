@@ -25,7 +25,7 @@ if (!empty($posts)) {
             <div class="topicMessage">
                 <div><?= $post->getUser() ?></div>
                 <div>le <?= $post->getCreationdate() ?></div>
-                <div><?= $post->getMessage() ?></div>
+                <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
             </div>
         <?php
         }
@@ -39,7 +39,12 @@ if (!empty($posts)) {
 }
 ?>
 
-
+<!-- Envoyer une réponse au topic -->
+<form class="formulaire" method="POST" action="index.php?ctrl=post&action=listPostsByTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
+    <input class="post" name="message">
+    <input type="hidden" name="userID" value="1">
+    <button class="formulaire-btn" type="submit" name="answerTopic" id="submit">Poster la réponse</button>
+</form>
 
 <?php
 $style = "post";
