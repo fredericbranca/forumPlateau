@@ -70,4 +70,27 @@ class TopicController extends AbstractController implements ControllerInterface
             "view" => VIEW_DIR . "forum\createTopic.php"
         ];
     }
+
+    public function modifyTopic()
+    {
+        $topicManager = new TopicManager();
+
+        // Modifier le message d'un topic
+        if (isset($_POST['modifyTopic']) && isset($_GET['id'])) {
+            // Filtres
+            $topicId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+            $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
+            // Vérifie si les filtres sont ok
+            if ($topicId !== false && $message !== false) {
+
+                // Modifie le message du topic
+                $topicManager->updateTopicMessage($message, $topicId);
+                // Redirection
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            }
+        }
+    }
 }
