@@ -10,7 +10,8 @@ $topic = $result["data"]['topic'];
 <div class="premierMessage">
     <div><?= $topic->getUser() ?></div>
     <div>le <?= $topic->getCreationdate() ?></div>
-    <div><?= $topic->getMessage() ?></div>
+    <!-- htmlspecialchars_decode() convertit les entités HTML spéciales en caractères -->
+    <div><?= htmlspecialchars_decode($topic->getMessage()) ?></div>
 </div>
 
 <?php
