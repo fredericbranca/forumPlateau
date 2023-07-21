@@ -52,4 +52,30 @@ class PostController extends AbstractController implements ControllerInterface
             ]
         ];
     }
+
+    public function modifyTopicMessage($id) {
+        $postManager = new PostManager();
+
+        // Modifier le message d'un post
+        if (isset($_POST['modifyTopicMessage']) && isset($_GET['id'])) {
+            // Filtres
+            $messageId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+            $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
+            // Vérifie si les filtres sont ok
+            if ($message !== false && $messageId !== false) {
+
+                // Modifie le message du post
+                $postManager->updatePostMessage($message, $messageId);
+                // Redirection
+                $topic = $postManager->findOneById($id);
+                $topicId = $topic->getTopic()->getId();
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                $topic = $postManager->findOneById($id);
+                $topicId = $topic->getTopic()->getId();
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            }
+        }
+    }
 }
