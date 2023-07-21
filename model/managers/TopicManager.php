@@ -25,4 +25,19 @@
                 $this->className
             );
         }
-    }
+
+        public function updateTopicMessage($message, $id) {
+
+            $sql = "UPDATE ".$this->tableName."
+                    SET message = '" . $message . "'
+                    WHERE id_topic = :id";
+
+            try{
+                return DAO::update($sql, ['id' => $id]);
+            }
+            catch(\PDOException $e){
+                echo $e->getMessage();
+                die();
+            }
+        }
+    } 
