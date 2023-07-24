@@ -60,7 +60,6 @@ class TopicController extends AbstractController implements ControllerInterface
                 $idTopic = $topicManager->add($data);
                 // Redirection
                 $this->redirectTo('post', 'listPostsByTopic', $idTopic);
-
             } else {
                 SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
                 $this->redirectTo('topic', 'createTopic');
@@ -90,6 +89,22 @@ class TopicController extends AbstractController implements ControllerInterface
             } else {
                 SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
                 $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            }
+        }
+    }
+
+    // Supprimer un topic
+    public function deleteTopic($id) {
+        $topicManager = new TopicManager();
+        if (isset($_POST['deleteTopic']) && isset($id)) {
+            if ($id !== false) {
+                // Supprime le topic avec la méthode delete() du Manager
+                $topicManager->delete($id);
+                SESSION::addFlash('success', "<div class='message'>Topic supprimé !</div>");
+                $this->redirectTo('topic');
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                $this->redirectTo('topic');
             }
         }
     }
