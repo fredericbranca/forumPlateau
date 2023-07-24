@@ -55,7 +55,7 @@ if (isset($result["data"]["categorie"])) {
 </table>
 <?php
         } else {
-            echo "Aucun topic existant.";
+            echo "Aucun topic existant dans cette catégorie.";
         }
 
         $style = "topics";
