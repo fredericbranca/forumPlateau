@@ -44,4 +44,8 @@
             return false;
         }
 
+        public static function unsetUser(){
+            unset($_SESSION['user']);
+        }
+
     }
