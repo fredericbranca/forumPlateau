@@ -16,6 +16,10 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
     public function register() 
     {
+        if(Session::getUser()) {
+            SESSION::addFlash('error', "<div class='message'>Vous êtes déjà inscrit et connecté</div>");
+            $this->redirectTo("Home");
+        }
         if (isset($_POST['submitSignUp'])) {
             // Filtre
             $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL);
@@ -69,6 +73,10 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
     public function login() {
 
+        if(Session::getUser()) {
+            SESSION::addFlash('error', "<div class='message'>Vous êtes déjà connecté</div>");
+            $this->redirectTo("Home");
+        }
         if (isset($_POST['submitLogin'])) {
             // Filtre
             $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
