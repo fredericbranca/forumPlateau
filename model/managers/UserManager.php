@@ -2,6 +2,7 @@
     namespace Model\Managers;
     
     use App\Manager;
+    use App\DAO;
 
     class UserManager extends Manager{
 
@@ -13,5 +14,30 @@
             parent::connect();
         }
 
+        public function findOneByEmail($email){
+
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    WHERE a.email = :email
+                    ";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $email], false), 
+                $this->className
+            );
+        }
+        
+        public function findOneByUser($user){
+
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    WHERE a.nickname = :nickname
+                    ";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['nickname' => $user], false), 
+                $this->className
+            );
+        }
 
     }
