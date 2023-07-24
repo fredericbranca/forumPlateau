@@ -123,4 +123,17 @@ class SecurityController extends AbstractController implements ControllerInterfa
             "view" => VIEW_DIR . 'security\login.php'
         ];
     }
+    
+    public function logout() {
+        if(!Session::getUser()) {
+            SESSION::addFlash('error', "<div class='message'>Vous êtes déjà déconnecté</div>");
+            $this->redirectTo("security", "login");
+        }
+        if($_GET['action'] === 'logout') {
+            // Détruit la session et rediriger vers l'accueil
+            SESSION::unsetUser();
+            SESSION::addFlash('success', "<div class='message'>Déconnexion réussie</div>");
+            $this->redirectTo("security", "login");
+        }
+    }
 }
