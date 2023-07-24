@@ -41,13 +41,14 @@ class TopicController extends AbstractController implements ControllerInterface
     public function createTopic()
     {
         $topicManager = new TopicManager();
+        $caterogieManager = new CategorieManager();
 
         // Créer un topic (bouton Poster la discussion dans createTopic)
 
         if (isset($_POST['createTopic'])) {
 
             // Filtres
-            $userId = filter_input(INPUT_POST, 'userID', FILTER_VALIDATE_INT);
+            $userId = Session::getUser()->getId();
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
             $categorie = filter_input(INPUT_POST, 'categorie', FILTER_VALIDATE_INT);
@@ -66,7 +67,10 @@ class TopicController extends AbstractController implements ControllerInterface
             }
         }
         return [
-            "view" => VIEW_DIR . "forum\createTopic.php"
+            "view" => VIEW_DIR . "forum\createTopic.php",
+            "data" => [
+                "categories" => $caterogieManager->findAll(["nom", "ASC"])
+            ]
         ];
     }
 
