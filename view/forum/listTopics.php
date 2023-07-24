@@ -20,22 +20,23 @@ if (isset($result["data"]["categorie"])) {
 </h1>
 
 <a href="index.php?ctrl=topic&action=createTopic">Créer une nouvelle discussion</a>
-
-<table class="topics-table">
-    <thead>
-        <tr>
-            <th>Discussion</th>
-            <th>Créé par</th>
-            <th>Créé le</th>
-            <th>Réponses</th>
-            <th>Dernier post</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        if (!empty($topics)) {
+<?php
+if (!empty($topics)) {
+?>
+    <table class="topics-table">
+        <thead>
+            <tr>
+                <th>Discussion</th>
+                <th>Créé par</th>
+                <th>Créé le</th>
+                <th>Réponses</th>
+                <th>Dernier post</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
             foreach ($topics as $topic) {
-        ?>
+            ?>
                 <tr onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
                     <td><?= $topic->getTitre() ?></td>
                     <td><?= $topic->getUser() ?></td>
@@ -43,24 +44,24 @@ if (isset($result["data"]["categorie"])) {
                     <td>nb réponse</td>
                     <td>dernier post</td>
                     <?php
-                        if (App\Session::isAdmin()) {
+                    if (App\Session::isAdmin()) {
                     ?>
-                    <td>
-                        <a href="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer le topic</a>
-                    </td>
+                        <td>
+                            <a href="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer le topic</a>
+                        </td>
                     <?php
-                        }
+                    }
                     ?>
                 </tr>
             <?php
             }
             ?>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 <?php
-        } else {
-            echo "Aucun topic existant dans cette catégorie.";
-        }
-
-        $style = "topics";
+} else {
 ?>
+    <div>Aucun topic existant dans cette catégorie</div>
+<?php
+}
+$style = "topics";
