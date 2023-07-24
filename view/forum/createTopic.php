@@ -18,7 +18,7 @@ $categories = $result["data"]['categories'];
         ?>
 
     </select>
-    <input class="post" name="message">
+    <textarea class="post" name='message' placeholder="Un message par jour éloigne l'ennui pour toujours ! Qu'avez-vous à dire aujourd'hui ? 🗓️😄"></textarea>
     <button class="formulaire-btn" type="submit" name="createTopic" id="submit">Poster la discussion</button>
 </form>
 
