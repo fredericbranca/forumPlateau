@@ -40,4 +40,17 @@
             );
         }
 
+        public function retrievePassword($user) {
+
+            $sql = "SELECT password
+                    FROM ".$this->tableName." a
+                    WHERE a.email = :email OR a.nickname = :nickname
+                    ";
+            
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $user, 'nickname' => $user], false), 
+                $this->className
+            );
+        }
+
     }
