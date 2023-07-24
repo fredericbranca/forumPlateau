@@ -22,28 +22,6 @@ class PostController extends AbstractController implements ControllerInterface
         $postManager = new PostManager();
         $topicManager = new TopicManager();
 
-
-        // Répondre à un topic
-        if (isset($_POST['answerTopic']) && isset($_GET['id'])) {
-
-            // Filtres
-            $topicId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-            $userId = filter_input(INPUT_POST, 'userID', FILTER_VALIDATE_INT);
-            $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
-            // Vérifie si les filtres sont ok
-            if ($topicId !== false && $userId !== false && $message !== false) {
-
-                $data = ['topic_id' => $topicId, 'user_id' => $userId, 'message' => $message];
-                // Ajoute le topic à la db grâce à la metho add() du Manager
-                $postManager->add($data);
-                // Redirection
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
-            } else {
-                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
-            }
-        }
-
         return [
             "view" => VIEW_DIR . "forum\posts.php",
             "data" => [
@@ -53,53 +31,124 @@ class PostController extends AbstractController implements ControllerInterface
         ];
     }
 
-    // Supprimer le message d'une discussion
-    public function deleteTopicMessage($id) {
+    public function answerTopic($id) {
+        $topicId = $id;
+        // Vérifie qu'un utilisateur est connecté pour qu'il puisse réponse à un topic
+        if (Session::getUser()) {
+            // Répondre à un topic
+            if (isset($_POST['answerTopic']) && isset($id)) {
 
-        $postManager = new PostManager();
+                // Filtres
+                $userId = Session::getUser()->getId();
+                $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
+                // Vérifie si les filtres sont ok
+                if ($topicId !== false && $userId !== false && $message !== false) {
+                    $postManager = new PostManager();
+                    // supprime les espaces spéciaux et les espaces vides du message
+                    $trimmedMessage = preg_replace('/(&nbsp;|\s)+/', '', html_entity_decode($message));
+                    //  supprime toutes les balises HTML
+                    $strippedMessage = strip_tags(html_entity_decode($trimmedMessage));
 
-        if (isset($_POST['deleteTopicMessage']) && isset($id)) {
-            if ($id !== false) {
-                // On récupère l'id du topic
-                $topic = $postManager->findOneById($id);
-                $topicId = $topic->getTopic()->getId();
-                // Supprimer le message avec la méthode delete() du Manager
-                $postManager->delete($id);
-                // Redirection vers le topic
-                SESSION::addFlash('success', "<div class='message'>Message supprimé !</div>");
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
-            } else {
-                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
-                $topic = $postManager->findOneById($id);
-                $topicId = $topic->getTopic()->getId();
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                    // Vérifier si le message ne contient que des espaces vides
+                    if (empty($strippedMessage)) {
+                        SESSION::addFlash('error', "<div class='message'>Le message ne doit pas être vide</div>");
+                        $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                    }
+                    $data = ['topic_id' => $topicId, 'user_id' => $userId, 'message' => $message];
+                    // Ajoute le topic à la db grâce à la metho add() du Manager
+                    $postManager->add($data);
+                    // Redirection
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                }
             }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Vous devez être connecté pour répondre à une discussion</div>");
+            $this->redirectTo('post', 'listPostsByTopic', $topicId);
         }
     }
 
-    public function modifyTopicMessage($id) {
+    // Supprimer le message d'une discussion
+    public function deleteTopicMessage($id)
+    {
         $postManager = new PostManager();
+        $post = $postManager->findOneById($id);
+        if (!$post) {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo('topic');
+        }
+        // On récupère l'id du topic
+        $topicId = $post->getTopic()->getId();
+        // on vérifie que l'user en session puisse supprumer uniquement son message (l'admin peut tout faire)
+        if (Session::isAdmin() || Session::getUser()->getId() === $post->getUser()->getId()) {
 
-        // Modifier le message d'un post
-        if (isset($_POST['modifyTopicMessage']) && isset($_GET['id'])) {
-            // Filtres
-            $messageId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-            $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
-            // Vérifie si les filtres sont ok
-            if ($message !== false && $messageId !== false) {
-
-                // Modifie le message du post
-                $postManager->updatePostMessage($message, $messageId);
-                // Redirection
-                $topic = $postManager->findOneById($id);
-                $topicId = $topic->getTopic()->getId();
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
-            } else {
-                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
-                $topic = $postManager->findOneById($id);
-                $topicId = $topic->getTopic()->getId();
-                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            if (isset($_POST['deleteTopicMessage']) && isset($id)) {
+                if ($id !== false) {
+                    $topicManager = new TopicManager();
+                    // Supprimer le message avec la méthode delete() du Manager
+                    $postManager->delete($id);
+                    // Redirection vers le topic
+                    SESSION::addFlash('success', "<div class='message'>Message supprimé !</div>");
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                    $topic = $postManager->findOneById($id);
+                    $topicId = $topic->getTopic()->getId();
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                }
             }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo('post', 'listPostsByTopic', $topicId);
+        }
+    }
+
+    public function modifyTopicMessage($id)
+    {
+        $postManager = new PostManager();
+        $post = $postManager->findOneById($id);
+        if (!$post) {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo('topic');
+        }
+        // On récupère l'id du topic
+        $topicId = $post->getTopic()->getId();
+
+        if (Session::isAdmin() || Session::getUser()->getId() === $post->getUser()->getId()) {
+
+
+            // Modifier le message d'un post
+            if (isset($_POST['modifyTopicMessage']) && isset($id)) {
+                // Filtres
+                $messageId = $id;
+                $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_SPECIAL_CHARS);
+
+                // Vérifie si les filtres sont ok
+                if ($message !== false && $messageId !== false) {
+                    // supprime les espaces spéciaux et les espaces vides du message
+                    $trimmedMessage = preg_replace('/(&nbsp;|\s)+/', '', html_entity_decode($message));
+                    //  supprime toutes les balises HTML
+                    $strippedMessage = strip_tags(html_entity_decode($trimmedMessage));
+
+                    // Vérifier si le message ne contient que des espaces vides
+                    if (empty($strippedMessage)) {
+                        SESSION::addFlash('error', "<div class='message'>Le message ne doit pas être vide</div>");
+                        $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                    }
+                    // Modifie le message du post
+                    $postManager->updatePostMessage($message, $messageId);
+                    // Redirection
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                    $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                }
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo('post', 'listPostsByTopic', $topicId);
         }
     }
 }

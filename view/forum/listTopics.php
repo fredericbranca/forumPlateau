@@ -42,11 +42,15 @@ if (isset($result["data"]["categorie"])) {
                     <td><?= $topic->getCreationdate() ?></td>
                     <td>nb réponse</td>
                     <td>dernier post</td>
+                    <?php
+                        if (App\Session::isAdmin()) {
+                    ?>
                     <td>
-                        <form method="POST" action="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>" enctype="multipart/form-data">
-                            <button class="delete-btn" type="submit" name="deleteTopic" id="submit">Supprimer le topic</button>
-                        </form>
+                        <a href="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer le topic</a>
                     </td>
+                    <?php
+                        }
+                    ?>
                 </tr>
             <?php
             }
