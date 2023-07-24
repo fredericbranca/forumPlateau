@@ -53,6 +53,30 @@ class PostController extends AbstractController implements ControllerInterface
         ];
     }
 
+    // Supprimer le message d'une discussion
+    public function deleteTopicMessage($id) {
+
+        $postManager = new PostManager();
+
+        if (isset($_POST['deleteTopicMessage']) && isset($id)) {
+            if ($id !== false) {
+                // On récupère l'id du topic
+                $topic = $postManager->findOneById($id);
+                $topicId = $topic->getTopic()->getId();
+                // Supprimer le message avec la méthode delete() du Manager
+                $postManager->delete($id);
+                // Redirection vers le topic
+                SESSION::addFlash('success', "<div class='message'>Message supprimé !</div>");
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                $topic = $postManager->findOneById($id);
+                $topicId = $topic->getTopic()->getId();
+                $this->redirectTo('post', 'listPostsByTopic', $topicId);
+            }
+        }
+    }
+
     public function modifyTopicMessage($id) {
         $postManager = new PostManager();
 
