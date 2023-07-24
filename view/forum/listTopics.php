@@ -4,7 +4,7 @@
 $topics = $result["data"]['topics'];
 
 // Si une catégorie est sélectionné, donne à $catégorie le contenu categorie par ID
-if(isset($result["data"]["categorie"])) {
+if (isset($result["data"]["categorie"])) {
     $categorie = $result["data"]["categorie"];
 }
 
@@ -42,6 +42,11 @@ if(isset($result["data"]["categorie"])) {
                     <td><?= $topic->getCreationdate() ?></td>
                     <td>nb réponse</td>
                     <td>dernier post</td>
+                    <td>
+                        <form method="POST" action="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>" enctype="multipart/form-data">
+                            <button class="delete-btn" type="submit" name="deleteTopic" id="submit">Supprimer le topic</button>
+                        </form>
+                    </td>
                 </tr>
             <?php
             }
