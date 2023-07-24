@@ -39,6 +39,9 @@ if (!empty($posts)) {
                     <button onclick="changeStyle('afficher-topicMessage<?= $post->getId() ?>', 'modifier-topicMessage<?= $post->getId() ?>')">
                         Modifier
                     </button>
+                    <form method="POST" action="index.php?ctrl=post&action=deleteTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
+                        <button class="delete-btn" type="submit" name="deleteTopicMessage" id="submit">Supprimer le message</button>
+                    </form>
                 </div>
                 <form class="modifier-topicMessage<?= $post->getId() ?>" method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
                     <input class="post" name="message" value="<?= $post->getMessage() ?>">
@@ -60,7 +63,7 @@ if (!empty($posts)) {
 <!-- Envoyer une réponse au topic -->
 <form class="formulaire" method="POST" action="index.php?ctrl=post&action=listPostsByTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
     <input class="post" name="message">
-    <input type="hidden" name="userID" value="1">
+    <input type="hidden" name="userID" value="2">
     <button class="formulaire-btn" type="submit" name="answerTopic" id="submit">Poster la réponse</button>
 </form>
 
