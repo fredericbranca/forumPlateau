@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
   CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.post : ~3 rows (environ)
+-- Listage des données de la table forum_fred.post : ~4 rows (environ)
 INSERT INTO `post` (`id_post`, `topic_id`, `user_id`, `message`, `creationdate`) VALUES
-	(12, 17, 3, '&#60;p&#62;Oui, j&#39;ai entendu parler, c&#39;est vraiment r&#38;eacute;volutionnaire !&#60;/p&#62;', '2023-07-21 13:46:21'),
 	(16, 16, 2, '&#60;p&#62;J&#39;aime bien les chats aussi !&#60;/p&#62;', '2023-07-24 08:58:35'),
-	(19, 17, 2, '&#60;p&#62;&#38;nbsp; &#38;nbsp; &#38;nbsp; &#38;nbsp;Bonjour&#60;/p&#62;', '2023-07-24 15:33:46'),
-	(75, 16, 7, '&#60;p&#62;Yo&#60;/p&#62;', '2023-07-24 21:17:39');
+	(75, 16, 7, '&#60;p&#62;Yo&#60;/p&#62;', '2023-07-24 21:17:39'),
+	(78, 24, 6, '&#60;p&#62;&#60;strong&#62;bonjour&#60;/strong&#62;&#60;/p&#62;', '2023-07-25 13:30:36'),
+	(79, 24, 6, '&#60;p&#62;freg gfre fr&#60;/p&#62;', '2023-07-25 16:07:50');
 
 -- Listage de la structure de table forum_fred. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -69,13 +69,14 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `cat_id` (`categorie_id`) USING BTREE,
   CONSTRAINT `FK_sujet_categorie` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`),
   CONSTRAINT `FK_sujet_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table forum_fred.topic : ~2 rows (environ)
+-- Listage des données de la table forum_fred.topic : ~4 rows (environ)
 INSERT INTO `topic` (`id_topic`, `categorie_id`, `user_id`, `titre`, `message`, `creationdate`, `closed`) VALUES
 	(16, 2, 2, 'Mon animal préféré', '&#60;p&#62;Quel est votre animal pr&#38;eacute;f&#38;eacute;r&#38;eacute; ? Le mien c&#39;est la Panth&#38;egrave;re noir&#60;/p&#62;', '2023-07-21 12:34:56', 0),
-	(17, 3, 3, 'Nouvelle technologie passionnante', '&#60;p&#62;Avez-vous entendu parler de la nouvelle technologie &#60;strong&#62;Neuralink &#60;/strong&#62;?&#60;/p&#62;&#60;p&#62;C&#39;est incroyable !&#38;nbsp;&#60;/p&#62;', '2023-07-21 13:45:32', 0),
-	(22, 1, 7, 'test', '&#60;p&#62;test e&#60;/p&#62;', '2023-07-24 19:31:57', 0);
+	(23, 1, 6, 'test', '&#60;p&#62;test&#60;/p&#62;', '2023-07-25 08:37:37', 0),
+	(24, 1, 7, 'test', '&#60;p&#62;aaa&#60;/p&#62;', '2023-07-25 08:38:49', 0),
+	(25, 2, 6, 'gebet', '&#60;p&#62;bethne&#60;/p&#62;', '2023-07-25 15:59:15', 0);
 
 -- Listage de la structure de table forum_fred. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -85,16 +86,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `creationdate` datetime DEFAULT CURRENT_TIMESTAMP,
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'ROLE_USER',
-  `statut` int NOT NULL DEFAULT '0',
+  `statut` datetime DEFAULT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.user : ~4 rows (environ)
 INSERT INTO `user` (`id_user`, `nickname`, `email`, `password`, `creationdate`, `role`, `statut`) VALUES
-	(2, 'Alice', 'alice@gmail.com', 'test', '2023-07-21 21:37:01', 'ROLE_USER', 0),
-	(3, 'Bob', 'bob@gmail.com', 'test', '2023-07-21 21:37:01', 'ROLE_USER', 0),
-	(6, 'Admin', 'admin@gmail.com', '$2y$10$GmvYym/qu5Up33aDFHjbx.JPKKOf80fshtCvx1rQ07Bnr5s4vY6Zy', '2023-07-24 13:42:26', 'ROLE_ADMIN', 0),
-	(7, 'Snoux', 'snoux@gmail.com', '$2y$10$A5/YH4k3P3e.T6JBwGPnCeirYw.vd6WS6a7WBpw16gfSqiS2Dh6iu', '2023-07-24 15:02:51', 'ROLE_USER', 0);
+	(2, 'Alice', 'alice@gmail.com', 'test', '2023-07-21 21:37:01', 'ROLE_USER', '2023-07-25 16:11:01'),
+	(3, 'Bob', 'bob@gmail.com', 'test', '2023-07-21 21:37:01', 'ROLE_USER', NULL),
+	(6, 'Admin', 'admin@gmail.com', '$2y$10$GmvYym/qu5Up33aDFHjbx.JPKKOf80fshtCvx1rQ07Bnr5s4vY6Zy', '2023-07-24 13:42:26', 'ROLE_ADMIN', NULL),
+	(7, 'Snoux', 'snoux@gmail.com', '$2y$10$A5/YH4k3P3e.T6JBwGPnCeirYw.vd6WS6a7WBpw16gfSqiS2Dh6iu', '2023-07-24 15:02:51', 'ROLE_USER', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
