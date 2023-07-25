@@ -5,6 +5,7 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
+use DateTime;
 use Model\Managers\UserManager;
 
 class SecurityController extends AbstractController implements ControllerInterface
@@ -107,7 +108,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                     // comparaison du hash de la base de données et le mot de passe renseigné
                     if (password_verify($password, $hash)) {
                         // si l'user n'est pas banni
-                        if (!$user->getStatut()) {
+                        if (empty($user->getStatut()) || $user->getStatut > date()) {
                             // placer l'utilisateur en Session
                             Session::setUser($user);
                             SESSION::addFlash('success', "<div class='message'>Connexion réussie</div>");
@@ -142,6 +143,62 @@ class SecurityController extends AbstractController implements ControllerInterfa
             SESSION::unsetUser();
             SESSION::addFlash('success', "<div class='message'>Déconnexion réussie</div>");
             $this->redirectTo("security", "login");
+        }
+    }
+
+    public function user($id = null) {
+
+        if(isset($id)) {
+            if($id !== false || empty($id)) {
+                $userManager = new UserManager();
+                // On recherche si l'user existe
+                $user = $userManager->findOneById($id);
+                if (!$user) {
+                    SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
+                    $this->redirectTo('security', 'user');
+                }
+
+                return [
+                    "view" => VIEW_DIR . 'security\user.php',
+                    "data" => [
+                        "users" => $user
+                    ]
+                ];
+
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                $this->redirectTo("security", "user");
+            }
+        }
+
+        return [
+            "view" => VIEW_DIR . 'security\user.php',
+            "data" => [
+                "users" => Session::getUser()
+            ]
+        ];
+    }
+
+    public function deleteUser($id) {
+        if(Session::isAdmin()) {
+            if($id !== false && !empty($id)) {
+                $userManager = new UserManager();
+                // On vérifie que l'user existe avant de le supprimer
+                $user = $userManager->findOneById($id);
+                if (!$user) { 
+                    SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
+                    $this->redirectTo('Home');
+                }
+
+                // On supprime l'utilisation avec l'id et la méthode delete
+                $userManager->delete($id);
+                // Redirection
+                SESSION::addFlash('success', "<div class='message'>Le compte utilisateur a été supprimé</div>");
+                $this->redirectTo("Home");
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo("Home");
         }
     }
 }
