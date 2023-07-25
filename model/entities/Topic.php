@@ -12,6 +12,7 @@
         private $message;
         private $creationdate;
         private $closed;
+        private $messagecount;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -152,6 +153,26 @@
         public function setClosed($closed)
         {
                 $this->closed = $closed;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of messagecount
+         */ 
+        public function getMessagecount()
+        {
+                return $this->messagecount;
+        }
+
+        /**
+         * Set the value of messagecount
+         *
+         * @return  self
+         */ 
+        public function setMessagecount($messagecount)
+        {
+                $this->messagecount = $messagecount;
 
                 return $this;
         }
