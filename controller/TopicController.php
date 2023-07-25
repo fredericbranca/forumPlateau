@@ -6,6 +6,7 @@ use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\TopicManager;
+use Model\Managers\PostManager;
 use Model\Managers\CategorieManager;
 
 class TopicController extends AbstractController implements ControllerInterface
@@ -18,7 +19,7 @@ class TopicController extends AbstractController implements ControllerInterface
         return [
             "view" => VIEW_DIR . "forum\listTopics.php",
             "data" => [
-                "topics" => $topicManager->findAll(["creationdate", "DESC"])
+                "topics" => $topicManager->findTopicMessageCounter(),
             ]
         ];
     }
@@ -33,7 +34,7 @@ class TopicController extends AbstractController implements ControllerInterface
             "view" => VIEW_DIR . "forum\listTopics.php",
             "data" => [
                 "topics" => $topicManager->findTopicsByCategorie($id),
-                "categorie" => $categorieManager->findOneById($id)
+                "categorie" => $categorieManager->findOneById($id),
             ]
         ];
     }
@@ -139,11 +140,19 @@ class TopicController extends AbstractController implements ControllerInterface
             if ($_GET['ctrl'] === "topic" && $_GET['action'] === "deleteTopic" && isset($id)) {
                 if ($id !== false) {
                     $topicManager = new TopicManager();
+                    $postManager = new PostManager();
                     // vérifie que le topic existe
                     $topic = $topicManager->findOneById($id);
                     if (!$topic) {
                         SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
                         $this->redirectTo('topic');
+                    }
+                    // Supprime les messages du topic s'il y en a
+                    $posts = $postManager->findPostsById($id);
+                    if(!empty($posts)) {
+                        foreach($posts as $post) {
+                            $postManager->delete($post->getId());
+                        }
                     }
                     // Supprime le topic avec la méthode delete() du Manager
                     $topicManager->delete($id);
