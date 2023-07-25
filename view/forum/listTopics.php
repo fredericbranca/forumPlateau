@@ -41,8 +41,8 @@ if (!empty($topics)) {
                     <td><?= $topic->getTitre() ?></td>
                     <td><?= $topic->getUser() ?></td>
                     <td><?= $topic->getCreationdate() ?></td>
-                    <td>nb réponse</td>
-                    <td>dernier post</td>
+                    <td><?= $topic->getMessagecount() ?></td>
+                    <td>date</td>
                     <?php
                     if (App\Session::isAdmin()) {
                     ?>
