@@ -34,6 +34,8 @@
                     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
                 )   
             );
+            // Permet de définir le français comme langue local
+            $requeteLangue = self::$bdd->query("SET lc_time_names = 'fr_FR'");
         }
 
         public static function insert($sql){
@@ -93,7 +95,7 @@
             try{
                 $stmt = self::$bdd->prepare($sql);
                 $stmt->execute($params);
-              
+                
                 $results = ($multiple) ? $stmt->fetchAll() : $stmt->fetch();
 
                 $stmt->closeCursor();
