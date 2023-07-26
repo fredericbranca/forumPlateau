@@ -149,8 +149,8 @@ class TopicController extends AbstractController implements ControllerInterface
                     }
                     // Supprime les messages du topic s'il y en a
                     $posts = $postManager->findPostsById($id);
-                    if(!empty($posts)) {
-                        foreach($posts as $post) {
+                    if (!empty($posts)) {
+                        foreach ($posts as $post) {
                             $postManager->delete($post->getId());
                         }
                     }
@@ -168,4 +168,64 @@ class TopicController extends AbstractController implements ControllerInterface
             $this->redirectTo('topic');
         }
     }
+
+    // Vérouiller un topic
+    public function Fermer($id)
+    {
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id);
+        if (!$topic) {
+            SESSION::addFlash('error', "<div class='message'>Ce topic n'existe pas</div>");
+            $this->redirectTo('topic');
+        }
+        $topicId = $id;
+        // on vérifie que l'user en session ferme uniquement son topic (l'admin peut tout faire) et que le post soit ouvert
+        if (Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (Session::getUser()->getId() === $topic->getUser()->getId())))) {
+            if (isset($_POST['Fermer'])) {
+                if ($topicId !== false) {
+                    // Verouille le topic avec la method close() du TopicManager
+                    $topicManager->closeTopic($id);
+                    // Redirection + message
+                    SESSION::addFlash('success', "<div class='message'>Topic fermé !</div>");
+                    $this->redirectTo('post', "listPostsByTopic", $id);
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                    $this->redirectTo('post', "listPostsByTopic", $id);
+                }
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo('post', "listPostsByTopic", $id);
+        }
+    }
+
+        // Dévérouiller un topic
+        public function Ouvrir($id)
+        {
+            $topicManager = new TopicManager();
+            $topic = $topicManager->findOneById($id);
+            if (!$topic) {
+                SESSION::addFlash('error', "<div class='message'>Ce topic n'existe pas</div>");
+                $this->redirectTo('topic');
+            }
+            $topicId = $id;
+            // L'admin uniquement peut dévérouiller un topic et que le post soit fermé
+            if (Session::isAdmin() && $topic->getClosed()) {
+                if (isset($_POST['Ouvrir'])) {
+                    if ($topicId !== false) {
+                        // Verouille le topic avec la method close() du TopicManager
+                        $topicManager->openTopic($id);
+                        // Redirection + message
+                        SESSION::addFlash('success', "<div class='message'>Topic ouvert !</div>");
+                        $this->redirectTo('post', "listPostsByTopic", $id);
+                    } else {
+                        SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
+                        $this->redirectTo('post', "listPostsByTopic", $id);
+                    }
+                }
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+                $this->redirectTo('post', "listPostsByTopic", $id);
+            }
+        }
 }
