@@ -39,7 +39,10 @@ if (!empty($topics)) {
             ?>
                 <tr onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
                     <td><?= $topic->getTitre() ?></td>
-                    <td><?= $topic->getUser() ?></td>
+                    <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
+                    <td><?php if (!$topic->getUser()) {
+                        echo "Utilisateur supprimé";
+                    } else { echo $topic->getUser(); } ?></td>
                     <td><?= $topic->getCreationdate() ?></td>
                     <td><?= $topic->getMessagecount() ?></td>
                     <td>date</td>
