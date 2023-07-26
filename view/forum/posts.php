@@ -5,7 +5,7 @@ $topic = $result["data"]['topic'];
 
 ?>
 
-<h1><?= $topic->getTitre() ?></h1>
+<h1><?= $topic->getTitre() ?> - Catégorie : <?= $topic->getCategorie() ?></h1>
 
 <div class="premierMessage">
     <div>

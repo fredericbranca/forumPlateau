@@ -27,6 +27,7 @@ if (!empty($topics)) {
         <thead>
             <tr>
                 <th>Discussion</th>
+                <th>Catégorie</th>
                 <th>Créé par</th>
                 <th>Créé le</th>
                 <th>Réponses</th>
@@ -39,6 +40,7 @@ if (!empty($topics)) {
             ?>
                 <tr onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
                     <td><?= $topic->getTitre() ?></td>
+                    <td><?= $topic->getCategorie() ?></td>
                     <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
                     <td><?php if (!$topic->getUser()) {
                         echo "Utilisateur supprimé";
