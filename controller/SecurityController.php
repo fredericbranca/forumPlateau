@@ -108,7 +108,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
                     // comparaison du hash de la base de données et le mot de passe renseigné
                     if (password_verify($password, $hash)) {
                         // si l'user n'est pas banni
-                        if (empty($user->getStatut()) || $user->getStatut > date()) {
+                        // convertit le statut : string en object DateTime
+                        $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
+                        if ($user->getStatut() === "NULL" || $statut < new DateTime("now")) {
                             // placer l'utilisateur en Session
                             Session::setUser($user);
                             SESSION::addFlash('success', "<div class='message'>Connexion réussie</div>");
