@@ -81,8 +81,8 @@ class PostController extends AbstractController implements ControllerInterface
         }
         // On récupère l'id du topic
         $topicId = $post->getTopic()->getId();
-        // on vérifie que l'user en session puisse supprumer uniquement son message (l'admin peut tout faire)
-        if (Session::isAdmin() || Session::getUser()->getId() === $post->getUser()->getId()) {
+        // on vérifie que l'user en session puisse supprimer uniquement son message (l'admin peut tout faire)
+        if (Session::isAdmin() || ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId()))) {
 
             if (isset($_POST['deleteTopicMessage']) && isset($id)) {
                 if ($id !== false) {
@@ -116,7 +116,7 @@ class PostController extends AbstractController implements ControllerInterface
         // On récupère l'id du topic
         $topicId = $post->getTopic()->getId();
 
-        if (Session::isAdmin() || Session::getUser()->getId() === $post->getUser()->getId()) {
+        if (Session::isAdmin() || ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId()))) {
 
 
             // Modifier le message d'un post

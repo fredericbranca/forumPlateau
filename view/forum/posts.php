@@ -8,13 +8,20 @@ $topic = $result["data"]['topic'];
 <h1><?= $topic->getTitre() ?></h1>
 
 <div class="premierMessage">
-    <div><?= $topic->getUser() ?></div>
+    <div>
+        <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
+        <?php if (!$topic->getUser()) {
+            echo "Utilisateur supprimé";
+        } else {
+            echo $topic->getUser();
+        } ?>
+    </div>
     <div>le <?= $topic->getCreationdate() ?></div>
     <!-- htmlspecialchars_decode() convertit les entités HTML spéciales en caractères -->
     <div class="afficher-topicMessage">
         <div><?= htmlspecialchars_decode($topic->getMessage()) ?></div>
         <?php
-        if (App\Session::isAdmin() || (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())) {
+        if (App\Session::isAdmin() || ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId()))) {
         ?>
             <button onclick="changeStyle('afficher-topicMessage', 'modifier-topicMessage')">
                 Modifier
@@ -32,7 +39,7 @@ $topic = $result["data"]['topic'];
         ?>
     </div>
     <?php
-    if (App\Session::isAdmin() || (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())) {
+    if (App\Session::isAdmin() || ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId()))) {
     ?>
         <form class="modifier-topicMessage" method="POST" action="index.php?ctrl=topic&action=modifyTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
             <input class="post" name="message" value="<?= $topic->getMessage() ?>">
@@ -52,12 +59,19 @@ if (!empty($posts)) {
         foreach ($posts as $post) {
         ?>
             <div class="topicMessage">
-                <div><?= $post->getUser() ?></div>
+                <div>
+                    <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
+                    <?php if (!$post->getUser()) {
+                        echo "Utilisateur supprimé";
+                    } else {
+                        echo $post->getUser();
+                    } ?>
+                </div>
                 <div>le <?= $post->getCreationdate() ?></div>
                 <div class="afficher-topicMessage<?= $post->getId() ?>">
                     <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
                     <?php
-                    if (App\Session::isAdmin() || (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId())) {
+                    if (App\Session::isAdmin() || ($post->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId()))) {
                     ?>
                         <button onclick="changeStyle('afficher-topicMessage<?= $post->getId() ?>', 'modifier-topicMessage<?= $post->getId() ?>')">
                             Modifier
@@ -93,9 +107,9 @@ if (App\Session::getUser()) {
     </form>
 <?php
 } else {
-    ?>
+?>
     <a href="index.php?ctrl=security&action=register">Inscrivez-vous pour répondre à ce sujet</a>
-    <?php
+<?php
 }
 $style = "post";
 ?>
