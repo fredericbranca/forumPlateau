@@ -79,10 +79,11 @@ class PostController extends AbstractController implements ControllerInterface
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
             $this->redirectTo('topic');
         }
-        // On récupère l'id du topic
-        $topicId = $post->getTopic()->getId();
-        // on vérifie que l'user en session puisse supprimer uniquement son message (l'admin peut tout faire)
-        if (Session::isAdmin() || ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId()))) {
+        // On récupère le topic
+        $topic = $post->getTopic();
+        $topicId = $topic->getId();
+        // on vérifie que l'user en session puisse supprimer uniquement son message (l'admin peut tout faire) et que le topic est ouvert
+        if (Session::isAdmin() || (!$topic->getClosed() && ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId())))) {
 
             if (isset($_POST['deleteTopicMessage']) && isset($id)) {
                 if ($id !== false) {
@@ -113,11 +114,11 @@ class PostController extends AbstractController implements ControllerInterface
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
             $this->redirectTo('topic');
         }
-        // On récupère l'id du topic
-        $topicId = $post->getTopic()->getId();
-
-        if (Session::isAdmin() || ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId()))) {
-
+        // On récupère le topic
+        $topic = $post->getTopic();
+        $topicId = $topic->getId();
+        // on vérifie que l'user en session puisse supprimer uniquement son message (l'admin peut tout faire) et que le topic est ouvert
+        if (Session::isAdmin() || (!$topic->getClosed() && ($post->getUser() && (Session::getUser()->getId() === $post->getUser()->getId())))) {
 
             // Modifier le message d'un post
             if (isset($_POST['modifyTopicMessage']) && isset($id)) {

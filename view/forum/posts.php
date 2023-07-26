@@ -3,8 +3,9 @@
 $posts = $result["data"]['posts'];
 $topic = $result["data"]['topic'];
 
-?>
+// Fermer ou ouvrir le topic
 
+?>
 <h1><?= $topic->getTitre() ?> - Catégorie : <?= $topic->getCategorie() ?></h1>
 
 <div class="premierMessage">
@@ -21,7 +22,7 @@ $topic = $result["data"]['topic'];
     <div class="afficher-topicMessage">
         <div><?= htmlspecialchars_decode($topic->getMessage()) ?></div>
         <?php
-        if (App\Session::isAdmin() || ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId()))) {
+        if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())))) {
         ?>
             <button onclick="changeStyle('afficher-topicMessage', 'modifier-topicMessage')">
                 Modifier
@@ -39,7 +40,7 @@ $topic = $result["data"]['topic'];
         ?>
     </div>
     <?php
-    if (App\Session::isAdmin() || ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId()))) {
+    if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())))) {
     ?>
         <form class="modifier-topicMessage" method="POST" action="index.php?ctrl=topic&action=modifyTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
             <input class="post" name="message" value="<?= $topic->getMessage() ?>">
@@ -71,7 +72,7 @@ if (!empty($posts)) {
                 <div class="afficher-topicMessage<?= $post->getId() ?>">
                     <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
                     <?php
-                    if (App\Session::isAdmin() || ($post->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId()))) {
+                    if (App\Session::isAdmin() || (!$topic->getClosed() && ($post->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId())))) {
                     ?>
                         <button onclick="changeStyle('afficher-topicMessage<?= $post->getId() ?>', 'modifier-topicMessage<?= $post->getId() ?>')">
                             Modifier
@@ -83,10 +84,16 @@ if (!empty($posts)) {
                     }
                     ?>
                 </div>
-                <form class="modifier-topicMessage<?= $post->getId() ?>" method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
-                    <input id="message" class="post" name="message" value="<?= $post->getMessage() ?>">
-                    <button class="formulaire-btn" type="submit" name="modifyTopicMessage" id="submit">Modifier le message</button>
-                </form>
+                <?php
+                if (App\Session::isAdmin() || (!$topic->getClosed() && ($post->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId())))) {
+                ?>
+                    <form class="modifier-topicMessage<?= $post->getId() ?>" method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
+                        <input id="message" class="post" name="message" value="<?= $post->getMessage() ?>">
+                        <button class="formulaire-btn" type="submit" name="modifyTopicMessage" id="submit">Modifier le message</button>
+                    </form>
+                <?php
+                }
+                ?>
             </div>
         <?php
         }
@@ -98,7 +105,8 @@ if (!empty($posts)) {
     <h2>Ce topic n'a pas encore de réponses</h2>
 <?php
 }
-if (App\Session::getUser()) {
+// Si le topic est ouvert et que l'user est en session ou que l'user est admin
+if ((!$topic->getClosed() && App\Session::getUser()) || App\Session::isAdmin()) {
 ?>
     <!-- Envoyer une réponse au topic -->
     <form class="formulaire" method="POST" action="index.php?ctrl=post&action=answerTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
@@ -106,6 +114,12 @@ if (App\Session::getUser()) {
         <button class="formulaire-btn" type="submit" name="answerTopic" id="submit">Poster la réponse</button>
     </form>
 <?php
+    // Si le topic est fermé
+} elseif ($topic->getClosed()) {
+?>
+    <p>Le topic est fermé.</p>
+<?php
+    // Si l'utilisateur n'est pas inscrit
 } else {
 ?>
     <a href="index.php?ctrl=security&action=register">Inscrivez-vous pour répondre à ce sujet</a>

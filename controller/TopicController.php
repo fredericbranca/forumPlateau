@@ -100,8 +100,8 @@ class TopicController extends AbstractController implements ControllerInterface
             $this->redirectTo('topic');
         }
         $topicId = $id;
-        // on vérifie que l'user en session modifie uniquement son message (l'admin peut tout faire)
-        if (Session::isAdmin() || ($topic->getUser() && (Session::getUser()->getId() === $topic->getUser()->getId()))) {
+        // on vérifie que l'user en session modifie uniquement son message (l'admin peut tout faire) et que le post soit ouvert
+        if (Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (Session::getUser()->getId() === $topic->getUser()->getId())))) {
             // Modifier le message d'un topic
             if (isset($_POST['modifyTopic']) && isset($id)) {
                 // Filtres
