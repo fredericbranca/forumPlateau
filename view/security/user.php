@@ -9,14 +9,17 @@ $user = $result["data"]['users'];
 <?php
 
 // convertit le statut : string en object DateTime
-$statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
-// Si la date du banissement est > à la date de maintenant, affiche jusqu'à quand l'user est banni, sinon affiche que le compte est actif
-if ($user->getStatut() !== "NULL" && $statut > new DateTime("now")) {
+if ($user->getStatut()) {
+    $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
+
+    // Si la date du banissement est > à la date de maintenant, affiche jusqu'à quand l'user est banni, sinon affiche que le compte est actif
+    if ($user->getStatut() !== "NULL" && $statut > new DateTime("now")) {
 ?>
-    <p><u>Statut</u> : Compte banni jusqu'au <?= $user->getStatut() ?></p>
-<?php
+        <p><u>Statut</u> : Compte banni jusqu'au <?= $user->getStatut() ?></p>
+    <?php
+    }
 } else {
-?>
+    ?>
     <p>Statut : Compte actif</p>
 <?php
 }
