@@ -14,6 +14,8 @@ final class User extends Entity
         private $creationdate;
         private $role;
         private $statut;
+        private $creationdateFR;
+        private $statutFR;
 
         public function __construct($data)
         {
@@ -167,6 +169,45 @@ final class User extends Entity
         public function setStatut($statut)
         {
                 $this->statut = $statut;
+
+                return $this;
+        }
+
+                /**
+         * Get the value of creationdateFR
+         */
+        public function getCreationdateFR()
+        {
+                return $this->creationdateFR;
+        }
+
+        /**
+         * Set the value of creationdateFR
+         *
+         * @return  self
+         */
+        public function setCreationdateFR($date)
+        {
+                $this->creationdateFR = $date;
+                return $this;
+        }
+
+        /**
+         * Get the value of statutFR
+         */
+        public function getStatutFR()
+        {
+                return $this->statutFR;
+        }
+
+        /**
+         * Set the value of statutFR
+         *
+         * @return  self
+         */
+        public function setStatutFR($date)
+        {
+                $this->statutFR = $date;
 
                 return $this;
         }
