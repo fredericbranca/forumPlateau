@@ -1,3 +1,19 @@
+<?php
+    // Check si l'user en session existe dans la db
+    if (App\Session::getUser()) {
+        //Récupère l'id de l'user en session
+        $sessionUserId = App\Session::getUser()->getId();
+        // Utilise la method findOneById() du Manager
+        $userManager = new Model\Managers\UserManager;
+        $userExist = $userManager->findOneById($sessionUserId);
+        // Supprime la session si l'user existe pas
+        if (!$userExist) {
+            App\Session::unsetUser();
+            header("Location:index.php?ctrl=home");
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
