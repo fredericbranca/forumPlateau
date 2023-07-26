@@ -4,8 +4,16 @@ $posts = $result["data"]['posts'];
 $topic = $result["data"]['topic'];
 
 // Fermer ou ouvrir le topic
-
+// Un utilisateur peut fermer son topic mais ne peut pas le rouvrir, un admin peut verouiller et déverouiller
+if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())))) {
+    $statut = $topic->getClosed() ? 'Ouvrir' : 'Fermer';
 ?>
+    <form method="POST" action="index.php?ctrl=topic&action=<?= $statut ?>&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
+        <button class="formulaire-btn" type="submit" name="<?= $statut ?>" id="submit"><?= $statut ?> le topic</button>
+    </form>
+<?php
+} ?>
+
 <h1><?= $topic->getTitre() ?> - Catégorie : <?= $topic->getCategorie() ?></h1>
 
 <div class="premierMessage">
