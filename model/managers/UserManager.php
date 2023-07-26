@@ -75,4 +75,17 @@
                 die();
             }
         }
+
+        public function findOneByIdDateFR($id){
+
+            $sql = "SELECT *, DATE_FORMAT(creationdate, '%d %M %Y à %Hh%i') AS creationdateFR, DATE_FORMAT(statut, '%d %M %Y à %Hh%i et %s secondes') AS statutFR
+                    FROM ".$this->tableName."
+                    WHERE id_".$this->tableName." = :id
+                    ";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id' => $id], false), 
+                $this->className
+            );
+        }
     }
