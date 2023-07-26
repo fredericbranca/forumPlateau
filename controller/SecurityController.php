@@ -156,8 +156,8 @@ class SecurityController extends AbstractController implements ControllerInterfa
         if (!empty($id)) {
             if ($id !== false) {
                 $userManager = new UserManager();
-                // On recherche si l'user existe
-                $user = $userManager->findOneById($id);
+                // On recherche si l'user existe avec la method spécial de l'UserManager
+                $user = $userManager->findOneByIdDateFR($id);
                 if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
                     $this->redirectTo('Home');
