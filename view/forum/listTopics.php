@@ -32,6 +32,7 @@ if (!empty($topics)) {
                 <th>Créé le</th>
                 <th>Réponses</th>
                 <th>Dernier post</th>
+                <th>Statut</th>
             </tr>
         </thead>
         <tbody>
@@ -43,16 +44,34 @@ if (!empty($topics)) {
                     <td><?= $topic->getCategorie() ?></td>
                     <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
                     <td><?php if (!$topic->getUser()) {
-                        echo "Utilisateur supprimé";
-                    } else { echo $topic->getUser(); } ?></td>
+                            echo "Utilisateur supprimé";
+                        } else {
+                            echo $topic->getUser();
+                        } ?></td>
                     <td><?= $topic->getCreationdate() ?></td>
                     <td><?= $topic->getMessagecount() ?></td>
                     <td>date</td>
+                    <td>
+                        <?php
+                        if ($topic->getClosed()) {
+                        ?>
+                            Fermé
+                        <?php
+                        } else {
+                        ?>
+                            Ouvert
+                        <?php
+                        }
+                        ?>
+                    </td>
                     <?php
                     if (App\Session::isAdmin()) {
                     ?>
                         <td>
-                            <a href="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer le topic</a>
+                            <!-- Bouton pour supprimer le topic -->
+                            <form method="POST" action="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>" enctype="multipart/form-data">
+                                <button class="delete-btn" type="submit" name="deleteTopic" id="submit">Supprimer le topic</button>
+                            </form>
                         </td>
                     <?php
                     }
