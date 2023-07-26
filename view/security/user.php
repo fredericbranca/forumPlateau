@@ -1,14 +1,10 @@
 <?php
 $user = $result["data"]['users'];
-
-// Format de la date de création du compte
-$creationdate = DateTime::createFromFormat('d/m/Y, H:i:s', $user->getCreationdate());
-$creationdate = $creationdate->format('d F Y \à H\hi');
 ?>
 
 <h1>Profil : <?= $user->getNickname() ?></h1>
 
-<p>Compte créé le : <?= $creationdate ?></p>
+<p>Compte créé le : <?= $user->getCreationdateFR() ?></p>
 
 <?php
 // Vérifie si le statut est défini
@@ -17,9 +13,8 @@ if ($user->getStatut()) {
     $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
     // Si la date du banissement est > à la date de maintenant, affiche jusqu'à quand l'user est banni, sinon affiche que le compte est actif
     if ($user->getStatut() !== "NULL" && $statut > new DateTime("now")) {
-        $statut = $statut->format('d F Y \à H\hi \e\t s \s\e\c\o\n\d\e\s');
 ?>
-        <p><u>Statut</u> : Compte banni jusqu'au <?= $statut ?></p>
+        <p><u>Statut</u> : Compte banni jusqu'au <?= $user->getStatutFR() ?></p>
     <?php
     } else {
     ?>
