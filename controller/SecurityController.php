@@ -15,9 +15,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
         $this->redirectTo("security", "login");
     }
 
-    public function register() 
+    public function register()
     {
-        if(Session::getUser()) {
+        if (Session::getUser()) {
             SESSION::addFlash('error', "<div class='message'>Vous êtes déjà inscrit et connecté</div>");
             $this->redirectTo("Home");
         }
@@ -27,9 +27,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            
+
             // Si les filtres passent
-            if ($email !== false && $nickname !== false && $password !==false) {
+            if ($email !== false && $nickname !== false && $password !== false) {
                 $userManager = new UserManager();
 
                 // si le mail n'existe pas
@@ -45,23 +45,23 @@ class SecurityController extends AbstractController implements ControllerInterfa
                             $userManager->add($data);
                             // Redirection vers le login
                             SESSION::addFlash('success', "<div class='message'>Inscription réussie ! Vous pouvez maintenant vous connecter</div>");
-                            $this->redirectTo("login");
-                        // Si les mots de passe ne correspondent pas
+                            $this->redirectTo("security", "login");
+                            // Si les mots de passe ne correspondent pas
                         } else {
                             SESSION::addFlash('error', "<div class='message'>Les deux mots de passe ne correspondent pas ou le mot de passe fait moins de 8 caractères</div>");
                             $this->redirectTo("security", "register");
                         }
-                    // Si le nickname existe déjà
+                        // Si le nickname existe déjà
                     } else {
                         SESSION::addFlash('error', "<div class='message'>Ce pseudo est déjà utilisé</div>");
                         $this->redirectTo("security", "register");
                     }
-                // Si l'adresse mail est déjà utilisé
+                    // Si l'adresse mail est déjà utilisé
                 } else {
                     SESSION::addFlash('error', "<div class='message'>Cette adresse mail est déjà utilisée</div>");
                     $this->redirectTo("security", "register");
                 }
-            }  else {
+            } else {
                 SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
                 $this->redirectTo("security", "register");
             }
@@ -72,9 +72,10 @@ class SecurityController extends AbstractController implements ControllerInterfa
         ];
     }
 
-    public function login() {
+    public function login()
+    {
 
-        if(Session::getUser()) {
+        if (Session::getUser()) {
             SESSION::addFlash('error', "<div class='message'>Vous êtes déjà connecté</div>");
             $this->redirectTo("Home");
         }
@@ -90,7 +91,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL);
                 $email = 1;
             }
-            
+
             if ($user !== false && $password !== false) {
                 $userManager = new UserManager();
                 // retrouver le mot de passe de l'utilisateur
@@ -123,7 +124,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         SESSION::addFlash('error', "<div class='message'>Mot de passe incorrect</div>");
                         $this->redirectTo("security", "login");
                     }
-                }  else {
+                } else {
                     SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
                     $this->redirectTo("security", "register");
                 }
@@ -134,13 +135,14 @@ class SecurityController extends AbstractController implements ControllerInterfa
             "view" => VIEW_DIR . 'security\login.php'
         ];
     }
-    
-    public function logout() {
-        if(!Session::getUser()) {
+
+    public function logout()
+    {
+        if (!Session::getUser()) {
             SESSION::addFlash('error', "<div class='message'>Vous êtes déjà déconnecté</div>");
             $this->redirectTo("security", "login");
         }
-        if($_GET['action'] === 'logout') {
+        if ($_GET['action'] === 'logout') {
             // Détruit la session et rediriger vers l'accueil
             SESSION::unsetUser();
             SESSION::addFlash('success', "<div class='message'>Déconnexion réussie</div>");
@@ -148,16 +150,17 @@ class SecurityController extends AbstractController implements ControllerInterfa
         }
     }
 
-    public function user($id = null) {
+    public function user($id)
+    {
 
-        if(isset($id)) {
-            if($id !== false || empty($id)) {
+        if (!empty($id)) {
+            if ($id !== false) {
                 $userManager = new UserManager();
                 // On recherche si l'user existe
                 $user = $userManager->findOneById($id);
                 if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
-                    $this->redirectTo('security', 'user');
+                    $this->redirectTo('Home');
                 }
 
                 return [
@@ -166,37 +169,43 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         "users" => $user
                     ]
                 ];
-
             } else {
                 SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
                 $this->redirectTo("security", "user");
             }
+        } elseif (Session::getUser()) {
+            $this->redirectTo("security", "user", Session::getUser()->getId());
+        } else {
+            $this->redirectTo("Home");
         }
-
-        return [
-            "view" => VIEW_DIR . 'security\user.php',
-            "data" => [
-                "users" => Session::getUser()
-            ]
-        ];
     }
 
-    public function deleteUser($id) {
-        if(Session::isAdmin()) {
-            if($id !== false && !empty($id)) {
+    public function deleteUser($id)
+    {
+        // Si un user n'est pas admin : il peut supprimer son propre compte
+        // Si un user est admin : il peut supprimer tous les comptes sauf le sien
+        if (Session::getUser() && ((Session::isAdmin() && Session::getUser()->getId() !== $id) || (!Session::isAdmin() && (Session::getUser()->getId() === $id)))) {
+            if ($id !== false && !empty($id)) {
                 $userManager = new UserManager();
                 // On vérifie que l'user existe avant de le supprimer
                 $user = $userManager->findOneById($id);
-                if (!$user) { 
+                if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
                     $this->redirectTo('Home');
                 }
 
                 // On supprime l'utilisation avec l'id et la méthode delete
                 $userManager->delete($id);
+                // On détruit la session si l'user supprime son propre compte
+                if(!Session::isAdmin()) {
+                    Session::unsetUser();
+                }
                 // Redirection
                 SESSION::addFlash('success', "<div class='message'>Le compte utilisateur a été supprimé</div>");
                 $this->redirectTo("Home");
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                $this->redirectTo("security", "user");
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
