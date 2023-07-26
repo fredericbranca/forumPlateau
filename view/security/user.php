@@ -29,6 +29,17 @@ if ($user->getStatut()) {
 <?php
 }
 
+//Ban & Unban un utilisateur
+if (App\Session::isAdmin() && App\Session::getUser()->getId() !== $user->getId()) {
+?>
+    <form method="POST" action="index.php?ctrl=security&action=restriction&id=<?= $user->getId() ?>" enctype="multipart/form-data">
+        <p>Restriction utilisateur</p>
+        <input type="number" id="seconde" name="seconde" min="1" step="1" required placeholder="Seconde" autocomplete="off">
+        <button type="submit" name="restriction" id="submit">Valider</button>
+    </form>
+<?php
+}
+
 // Si l'utilisateur est admin il peut supprimer le compte de chaque utilisateur sauf le sien
 // L'utilisateur peut uniquement voir le bouton supprimer sur son profile ; un visiteur ne voit pas le bouton
 if (App\Session::getUser() && ((App\Session::isAdmin() && App\Session::getUser()->getId() !== $user->getId()) || (!App\Session::isAdmin() && (App\Session::getUser()->getId() === $user->getId())))) {
