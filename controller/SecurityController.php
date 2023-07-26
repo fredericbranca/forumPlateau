@@ -197,7 +197,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 // On supprime l'utilisation avec l'id et la méthode delete
                 $userManager->delete($id);
                 // On détruit la session si l'user supprime son propre compte
-                if(!Session::isAdmin()) {
+                if (!Session::isAdmin()) {
                     Session::unsetUser();
                 }
                 // Redirection
@@ -209,6 +209,45 @@ class SecurityController extends AbstractController implements ControllerInterfa
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo("Home");
+        }
+    }
+
+    // Restriction d'un utilisateur (ban unban)
+    public function restriction($id)
+    {
+        // Gestion des accès : Etre admin et que l'admin ne se restreint pas lui-même
+        if (Session::isAdmin() && Session::getUser()->getId() !== $id) {
+            if (isset($_POST['restriction'])) {
+                // Filtre
+                $seconde = filter_input(INPUT_POST, 'seconde', FILTER_VALIDATE_INT);
+                // On vérifie que les filtres passent
+                if ($id !== false && $seconde !== false && !empty($id) && !empty($seconde)) {
+                    // Récupère l'utilisateur avec la method findOneById($id) du Manager
+                    $userManager = new UserManager;
+                    $user = $userManager->findOneById($id);
+                    // Vérifie que l'utilisateur existe sinon on redirige
+                    if (!$user) {
+                        SESSION::addFlash('error', "<div class='message'>L'utilisateur n'existe pas</div>");
+                        $this->redirectTo("Home");
+                    }
+                    // Vérifie que $seconde soit un entier supérieur
+                    if ($seconde < 0) {
+                        SESSION::addFlash('error', "<div class='message'>Le temps minimum est de 0 seconde(s)</div>");
+                        $this->redirectTo("security", "user", $id);
+                    }
+                    // On ban l'utilisateur le temps donné en seconde grâce à la méthode bannir($id, $seconde) du UserManager
+                    $userManager->bannir($id, $seconde);
+                    // Redirection
+                    SESSION::addFlash('success', "<div class='message'>L'utilisateur a été banni $seconde secondes.</div>");
+                    $this->redirectTo("security", "user", $id);
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                    $this->redirectTo("Home");
+                }
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé ou cet utilisateur n'existe pas</div>");
             $this->redirectTo("Home");
         }
     }
