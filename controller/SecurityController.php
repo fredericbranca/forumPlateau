@@ -85,7 +85,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             // On vérifie si c'est le nickname ou un email
             // Patern email
-            $emailPattern = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix"; // Validation d'email par expression régulière
+            $emailPattern = "/^([a-z0-9\+\_\-]+)(\.[a-z0-9\+\_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix"; // Validation d'email par expression régulière
             // preg_match() est utilisée pour rechercher un motif dans une chaîne de caractères
             if (preg_match($emailPattern, $user)) {
                 $user = filter_input(INPUT_POST, "user", FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL);
@@ -111,7 +111,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         // si l'user n'est pas banni
                         // convertit le statut : string en object DateTime
                         $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
-                        if ($user->getStatut() === "NULL" || $statut < new DateTime("now")) {
+                        if ($statut < new DateTime("now")) {
                             // placer l'utilisateur en Session
                             Session::setUser($user);
                             SESSION::addFlash('success', "<div class='message'>Connexion réussie</div>");
@@ -157,7 +157,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
             if ($id !== false) {
                 $userManager = new UserManager();
                 // On recherche si l'user existe avec la method spécial de l'UserManager
-                $user = $userManager->findOneByIdDateFR($id);
+                $user = $userManager->findUserByIdDateFR($id);
                 if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
                     $this->redirectTo('Home');
@@ -248,6 +248,37 @@ class SecurityController extends AbstractController implements ControllerInterfa
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé ou cet utilisateur n'existe pas</div>");
+            $this->redirectTo("Home");
+        }
+    }
+
+    // Modifier son pseudo (user)
+    public function changeNickname($id)
+    {
+        if ( Session::getUser() && Session::getUser()->getId() == $id) {
+            if (isset($_POST['changeNickname'])) {
+                // Filtre
+                $nickname = filter_input(INPUT_POST, 'nickname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                if ($nickname !== false && !empty($nickname)) {
+                    $userManager = new UserManager;
+                    //Vérifie que le nickname c'est pas déjà utilisé
+                    if ($userManager->findOneByUser($nickname)) {
+                        SESSION::addFlash('error', "<div class='message'>Ce pseudo est déjà utilisé</div>");
+                        $this->redirectTo("security", "user");
+                    }
+                    //Modifie le nickname avec la méthode updateOneValueById() de l'UserManager
+                    $userManager->updateOneValueById($id, 'nickname', $nickname);
+                    // Redirection + deconnexion
+                    SESSION::unsetUser();
+                    SESSION::addFlash('success', "<div class='message'>Votre pseudo a été changé en $nickname. Veuillez vous reconnecter.</div>");
+                    $this->redirectTo("security", "login");
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                    $this->redirectTo("Home");
+                }
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
             $this->redirectTo("Home");
         }
     }
