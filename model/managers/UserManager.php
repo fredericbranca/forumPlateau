@@ -76,16 +76,34 @@
             }
         }
 
-        public function findOneByIdDateFR($id){
+        // Recupère les données de la table user, formate les dates 
+        public function findUserByIdDateFR($id){
 
             $sql = "SELECT *, DATE_FORMAT(creationdate, '%d %M %Y à %Hh%i') AS creationdateFR, DATE_FORMAT(statut, '%d %M %Y à %Hh%i et %s secondes') AS statutFR
-                    FROM ".$this->tableName."
-                    WHERE id_".$this->tableName." = :id
+                    FROM user
+                    WHERE id_user = :id
                     ";
 
             return $this->getOneOrNullResult(
                 DAO::select($sql, ['id' => $id], false), 
                 $this->className
             );
+        }
+
+        // Update la value d'une table
+        public function updateOneValueById($id, $param, $value){
+
+            $sql = "UPDATE ".$this->tableName."
+                    SET ".$param." = :value
+                    WHERE id_".$this->tableName." = :id
+                    ";
+            
+            try{ 
+                DAO::update($sql, ['value' => $value, 'id' => $id]); 
+            }
+            catch(\PDOException $e){
+                echo $e->getMessage();
+                die();
+            }
         }
     }
