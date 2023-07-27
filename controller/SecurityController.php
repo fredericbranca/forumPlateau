@@ -255,7 +255,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
     // Modifier son pseudo (user)
     public function changeNickname($id)
     {
-        if ( Session::getUser() && Session::getUser()->getId() == $id) {
+        if (Session::getUser() && Session::getUser()->getId() == $id) {
             if (isset($_POST['changeNickname'])) {
                 // Filtre
                 $nickname = filter_input(INPUT_POST, 'nickname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -280,6 +280,65 @@ class SecurityController extends AbstractController implements ControllerInterfa
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
             $this->redirectTo("Home");
+        }
+    }
+
+    // Changer le mot de passe
+    public function changePassword($id)
+    {
+        if (Session::getUser() && Session::getUser()->getId() === $id) {
+            if (isset($_POST['changePassword'])) {
+                // Filtre
+                $oldpassword = filter_input(INPUT_POST, "oldpassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $newpassword = filter_input(INPUT_POST, "newpassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $confirmedNewPassword = filter_input(INPUT_POST, "confirmNewPassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                // Si les filtres passent
+                if ($oldpassword !== false && $newpassword !== false && $confirmedNewPassword !== false) {
+                    $userManager = new UserManager();
+                    $user = $userManager->findOneById($id);
+                    // vérifie si l'user existe (au cas où)
+                    if ($user) {
+                        // récupération du mot de passe
+                        $hash = $user->getPassword();
+                        // comparaison du hash de la base de données et le mot de passe renseigné
+                        if (password_verify($oldpassword, $hash)) {
+                            // Vérifie le nouveau mot de passe
+                            if ($newpassword === $confirmedNewPassword) {
+                                // Si le mot de passe fait moins de 8 caractères
+                                if ((strlen($newpassword) <= 8)) {
+                                    SESSION::addFlash('error', "<div class='message'>Le nouveau mot de passe fait moins de 8 caractères</div>");
+                                    $this->redirectTo("security", "user");
+                                }
+                                // Hachage du nouveau mot de passe
+                                $hashedNewPassword = password_hash($newpassword, PASSWORD_DEFAULT);
+                                // Update le mdp dans la db
+                                $userManager->updateOneValueById($id, 'password', $hashedNewPassword);
+                                // Redirection
+                                SESSION::addFlash('success', "<div class='message'>Le mot de passe a été modifié avec succès</div>");
+                                $this->redirectTo("security", "user");
+                            } else {
+                                SESSION::addFlash('error', "<div class='message'>Les deux mots de passe ne correspondent pas</div>");
+                                $this->redirectTo("security", "user");
+                            }
+                        } else {
+                            SESSION::addFlash('error', "<div class='message'>Le mot de passe est incorrect</div>");
+                            $this->redirectTo("security", "user");
+                        }
+                    } else {
+                        SESSION::addFlash('error', "<div class='message'>Quelque chose c'est mal passé</div>");
+                        $this->redirectTo("security", "user");
+                    }
+                } else {
+                    SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                    $this->redirectTo("security", "login");
+                }
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Action impossible</div>");
+                $this->redirectTo("security", "user");
+            }
+        } else {
+            SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
+            $this->redirectTo("security", "login");
         }
     }
 }
