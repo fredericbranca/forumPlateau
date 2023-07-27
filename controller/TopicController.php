@@ -19,7 +19,7 @@ class TopicController extends AbstractController implements ControllerInterface
         return [
             "view" => VIEW_DIR . "forum\listTopics.php",
             "data" => [
-                "topics" => $topicManager->findTopicMessageCounter(),
+                "topics" => $topicManager->findTopics(),
             ]
         ];
     }
@@ -33,7 +33,7 @@ class TopicController extends AbstractController implements ControllerInterface
         return [
             "view" => VIEW_DIR . "forum\listTopics.php",
             "data" => [
-                "topics" => $topicManager->findTopicsByCategorie($id),
+                "topics" => $topicManager->findTopics($id),
                 "categorie" => $categorieManager->findOneById($id),
             ]
         ];
