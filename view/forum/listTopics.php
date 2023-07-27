@@ -38,6 +38,7 @@ if (!empty($topics)) {
         <tbody>
             <?php
             foreach ($topics as $topic) {
+                App\Session::renameOnlyAdmin($topic->getUser());
             ?>
                 <tr onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
                     <td><?= $topic->getTitre() ?></td>

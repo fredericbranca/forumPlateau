@@ -2,7 +2,7 @@
 
 $posts = $result["data"]['posts'];
 $topic = $result["data"]['topic'];
-
+App\Session::renameOnlyAdmin($topic->getUser());
 // Fermer ou ouvrir le topic
 // Un utilisateur peut fermer son topic mais ne peut pas le rouvrir, un admin peut verouiller et déverouiller
 if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())))) {
@@ -66,6 +66,7 @@ if (!empty($posts)) {
     <div class="topicMessages">
         <?php
         foreach ($posts as $post) {
+            App\Session::renameOnlyAdmin($post->getUser());
         ?>
             <div class="topicMessage">
                 <div>
