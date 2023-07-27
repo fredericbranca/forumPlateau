@@ -1,5 +1,6 @@
 <?php
 $user = $result["data"]['users'];
+App\Session::renameOnlyAdmin($user)
 ?>
 
 <h1>Profil : <?= $user->getNickname() ?></h1>
@@ -44,6 +45,16 @@ if (App\Session::getUser() && ((App\Session::isAdmin() && App\Session::getUser()
 ?>
     <form method="POST" action="index.php?ctrl=security&action=deleteUser&id=<?= $user->getId() ?>" enctype="multipart/form-data">
         <button class="delete-btn" type="submit" name="deleteUser" id="submit">Supprimer le compte</button>
+    </form>
+<?php
+}
+
+// Formulaire pour changer de pseudo
+if (App\Session::getUser() && App\Session::getUser()->getId() === $user->getId()) {
+?>
+    <form method="POST" action="index.php?ctrl=security&action=changeNickname&id=<?= $user->getId() ?>" enctype="multipart/form-data">
+        <input type="text" id="nickname" name="nickname" required placeholder="Nouveau pseudo" autocomplete="off">
+        <button type="submit" name="changeNickname" id="submit">Modifier le pseudo</button>
     </form>
 <?php
 }
