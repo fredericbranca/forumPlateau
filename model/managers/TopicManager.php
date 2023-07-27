@@ -14,17 +14,23 @@
             parent::connect();
         }
         // Trier les topics par catégorie $id 
-        public function findTopicsByCategorie($id){
+        public function findTopics($idCategorie = null){
+
+            $categorieQuery = ($idCategorie) ?                 
+            "WHERE a.categorie_id = :idCategorie" :
+            "";
+            $param = ($idCategorie) ?
+            ["idCategorie" => $idCategorie] : [];
 
             $sql = "SELECT a.*, COUNT(p.id_post) AS messagecount
                     FROM ".$this->tableName." a
-                    LEFT JOIN post p ON p.topic_id = a.id_topic
-                    WHERE a.categorie_id = :id
+                    LEFT JOIN post p ON p.topic_id = a.id_topic "
+                    .$categorieQuery. "
                     GROUP BY a.id_topic
                     ORDER BY a.creationdate DESC";
-
+            
             return $this->getMultipleResults(
-                DAO::select($sql, ['id' => $id]),
+                DAO::select($sql, $param),
                 $this->className
             );
         }
@@ -43,21 +49,6 @@
                 echo $e->getMessage();
                 die();
             }
-        }
-
-        //Compter le nombre de message contenu dans un topic (hors message du topic)
-        public function findTopicMessageCounter() {
-
-            $sql = "SELECT t.*, COUNT(p.id_post) AS messagecount
-                    FROM topic t
-                    LEFT JOIN post p ON p.topic_id = t.id_topic
-                    GROUP BY t.id_topic
-                    ORDER BY t.creationdate DESC";
-
-            return $this->getMultipleResults(
-                DAO::select($sql), 
-                $this->className
-            );
         }
 
         //Vérouiller un topic
