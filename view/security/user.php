@@ -58,4 +58,15 @@ if (App\Session::getUser() && App\Session::getUser()->getId() === $user->getId()
     </form>
 <?php
 }
+
+// Formulaire pour modifier le mot de passe
+if (App\Session::getUser() && App\Session::getUser()->getId() === $user->getId()) {
 ?>
+    <form method="POST" action="index.php?ctrl=security&action=changePassword&id=<?= $user->getId() ?>" enctype="multipart/form-data">
+        <input type="password" id="password" name="oldpassword" maxlength="255" required placeholder="Ancien mot de passe" autocomplete="off">
+        <input type="password" id="password" name="newpassword" maxlength="255" required placeholder="Nouveau mot de passe" autocomplete="off">
+        <input type="password" id="password" maxlength="255" name="confirmNewPassword" required placeholder="Confirmation du nouveau mot de passe" autocomplete="off">
+        <button type="submit" name="changePassword" id="submit">Modifier le mot de passe</button>
+    </form>
+<?php
+}
