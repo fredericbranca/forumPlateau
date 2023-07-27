@@ -125,9 +125,12 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         $this->redirectTo("security", "login");
                     }
                 } else {
-                    SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
-                    $this->redirectTo("security", "register");
+                    SESSION::addFlash('error', "<div class='message'>Email ou Pseudo incorrect</div>");
+                    $this->redirectTo("security", "login");
                 }
+            } else {
+                SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
+                $this->redirectTo("security", "login");
             }
         }
 
