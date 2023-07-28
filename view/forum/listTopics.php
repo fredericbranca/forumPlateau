@@ -41,7 +41,7 @@ if (!empty($topics)) {
                 App\Session::renameOnlyAdmin($topic->getUser());
             ?>
                 <tr onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
-                    <td><?= $topic->getTitre() ?></td>
+                    <td><p><?= $topic->getTitre() ?></p></td>
                     <td><?= $topic->getCategorie() ?></td>
                     <!-- Si l'user n'existe pas, affiche  "Utilisateur supprimé" sinon affiche l'user-->
                     <td><?php if (!$topic->getUser()) {
