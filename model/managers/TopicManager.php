@@ -13,7 +13,7 @@
         public function __construct(){
             parent::connect();
         }
-        // Trier les topics par catégorie $id 
+        // Afficher toutes les infos d'un topic + nombre de message + date/heure du dernier message
         public function findTopics($idCategorie = null){
 
             $categorieQuery = ($idCategorie) ?                 
@@ -22,9 +22,14 @@
             $param = ($idCategorie) ?
             ["idCategorie" => $idCategorie] : [];
 
-            $sql = "SELECT a.*, COUNT(p.id_post) AS messagecount
-                    FROM ".$this->tableName." a
-                    LEFT JOIN post p ON p.topic_id = a.id_topic "
+            $sql = "SELECT a.*, DATE_FORMAT(a.creationdate, '%d/%m/%Y à %Hh%i') as formatedcreationdate, COUNT(p.id_post) AS messagecount, latestCreationDate.lastPostDate
+                    FROM topic a
+                    LEFT JOIN post p ON p.topic_id = a.id_topic 
+                    LEFT JOIN (
+                        SELECT topic_id, MAX(DATE_FORMAT(creationdate, '%d/%m/%Y à %Hh%i')) as lastPostDate 
+                        FROM post
+                        GROUP BY topic_id
+                     ) latestCreationDate ON a.id_topic = latestCreationDate.topic_id "
                     .$categorieQuery. "
                     GROUP BY a.id_topic
                     ORDER BY a.creationdate DESC";
