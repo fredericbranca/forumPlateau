@@ -9,29 +9,9 @@
     
     class HomeController extends AbstractController implements ControllerInterface{
 
-        public function index(){
-            
-           
-                return [
-                    "view" => VIEW_DIR."home.php"
-                ];
+        public function index(){  
+            $this->redirectTo("topic");
             }
-            
-        
-   
-        public function users(){
-            $this->restrictTo("ROLE_USER");
-
-            $manager = new UserManager();
-            $users = $manager->findAll(['nickname', 'ASC']);
-
-            return [
-                "view" => VIEW_DIR."security/userslist.php",
-                "data" => [
-                    "users" => $users
-                ]
-            ];
-        }
 
         public function forumRules(){
             

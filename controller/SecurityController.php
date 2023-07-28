@@ -344,4 +344,19 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $this->redirectTo("security", "login");
         }
     }
+
+    // Vue liste des utilisateurs
+    public function users(){
+        $this->restrictTo("ROLE_USER");
+
+        $manager = new UserManager();
+        $users = $manager->findAll(['nickname', 'ASC']);
+
+        return [
+            "view" => VIEW_DIR."security/userslist.php",
+            "data" => [
+                "users" => $users
+            ]
+        ];
+    }
 }
