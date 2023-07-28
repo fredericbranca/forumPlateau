@@ -11,7 +11,7 @@
                 $url = $ctrl ? "?ctrl=" . $ctrl : "";
                 $url.= $action ? "&action=" . $action : "";
                 $url.= $id ? "&id=" . $id : "";
-            } else $url = "/";
+            } else $url = "index.php?ctrl=home";
 
             header("Location: $url");
             die();
@@ -19,10 +19,9 @@
 
         public function restrictTo($role){
             
-            if(!Session::getUser() || !Session::getUser()->hasRole($role)){
+            if(!Session::getUser() || Session::getUser()->hasRole($role)){
                 $this->redirectTo("security", "login");
             }
-            return;
         }
 
     }
