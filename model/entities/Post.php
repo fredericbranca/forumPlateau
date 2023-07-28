@@ -11,6 +11,7 @@
         private $user;
         private $message;
         private $creationdate;
+        private $modifiedmessagedate;
 
         public function __construct($data) {
             $this->hydrate($data);
@@ -100,7 +101,7 @@
          * Get the value of creationdate
          */ 
         public function getCreationdate(){
-            $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+            $formattedDate = $this->creationdate->format("d/m/Y \à G\hi");
             return $formattedDate;
         }
 
@@ -112,6 +113,24 @@
         public function setCreationdate($date){
             $this->creationdate = new \DateTime($date);
             return $this;
+        }
+
+        /**
+         * Get the value of modifiedmessagedate
+         */ 
+        public function getModifiedMessageDate(){
+                $formattedDate = $this->modifiedmessagedate !== null ? $this->modifiedmessagedate->format("d/m/Y \à H\hi") : $this->modifiedmessagedate;
+                return $formattedDate;
+        }
+    
+        /**
+         * Set the value of modifiedmessagedate
+         *
+         * @return  self
+         */ 
+        public function setModifiedmessagedate($date){
+                $date === null ? $this->modifiedmessagedate = null : $this->modifiedmessagedate = new \DateTime($date);
+                return $date;
         }
 
     }

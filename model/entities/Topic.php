@@ -11,6 +11,7 @@
         private $titre;
         private $message;
         private $creationdate;
+        private $modifiedmessagedate;
         private $closed;
         private $messagecount;
         private $lastPostDate;
@@ -124,7 +125,7 @@
          * Get the value of creationdate
          */ 
         public function getCreationdate(){
-            $formattedDate = $this->creationdate->format("d/m/Y à H\hi");
+            $formattedDate = $this->creationdate->format("d/m/Y à G\hi");
             return $formattedDate;
         }
 
@@ -196,5 +197,23 @@
                 $this->lastPostDate = $lastPostDate;
 
                 return $this;
+        }
+
+        /**
+         * Get the value of modifiedmessagedate
+         */ 
+        public function getModifiedMessageDate(){
+                $formattedDate = $this->modifiedmessagedate !== null ? $this->modifiedmessagedate->format("d/m/Y \à G\hi") : $this->modifiedmessagedate;
+                return $formattedDate;
+        }
+    
+        /**
+         * Set the value of modifiedmessagedate
+         *
+         * @return  self
+         */ 
+        public function setModifiedmessagedate($date){
+                $date === null ? $this->modifiedmessagedate = null : $this->modifiedmessagedate = new \DateTime($date);
+                return $date;
         }
     }

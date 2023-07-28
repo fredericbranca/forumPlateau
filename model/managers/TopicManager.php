@@ -44,7 +44,7 @@
         public function updateTopicMessage($message, $id) {
 
             $sql = "UPDATE ".$this->tableName."
-                    SET message = '" . $message . "'
+                    SET message = '" . $message . "', modifiedmessagedate = '" . (new \DateTime())->format('Y-m-d H:i:s') . "'
                     WHERE id_topic = :id";
 
             try{

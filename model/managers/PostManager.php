@@ -29,7 +29,7 @@
         public function updatePostMessage($message, $messageId) {
 
             $sql = "UPDATE ".$this->tableName."
-                    SET message = '" . $message . "'
+                    SET message = '" . $message . "', modifiedmessagedate = '" . (new \DateTime())->format('Y-m-d H:i:s') . "'
                     WHERE id_post = :id_post";
 
             try{

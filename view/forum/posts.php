@@ -25,7 +25,7 @@ if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (Ap
             echo $topic->getUser();
         } ?>
     </div>
-    <div>le <?= $topic->getCreationdate() ?></div>
+    <div>le <?= $topic->getCreationdate(); echo $topic->getModifiedMessageDate() !== null ? " - Modifier le : ". $topic->getModifiedMessageDate() : ""; ?></div>
     <!-- htmlspecialchars_decode() convertit les entités HTML spéciales en caractères -->
     <div class="afficher-topicMessage">
         <div><?= htmlspecialchars_decode($topic->getMessage()) ?></div>
@@ -50,10 +50,15 @@ if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (Ap
     <?php
     if (App\Session::isAdmin() || (!$topic->getClosed() && ($topic->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $topic->getUser()->getId())))) {
     ?>
-        <form class="modifier-topicMessage" method="POST" action="index.php?ctrl=topic&action=modifyTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
-            <input class="post" name="message" value="<?= $topic->getMessage() ?>">
-            <button class="formulaire-btn" type="submit" name="modifyTopic" id="submit">Modifier le message</button>
-        </form>
+        <div class="modifier-topicMessage">
+            <form method="POST" action="index.php?ctrl=topic&action=modifyTopic&id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
+                <input class="post" name="message" value="<?= $topic->getMessage() ?>">
+                <button class="formulaire-btn" type="submit" name="modifyTopic" id="submit">Modifier le message</button>
+            </form>
+            <button onclick="changeStyle('modifier-topicMessage', 'afficher-topicMessage')">
+                Annuler
+            </button>
+        </div>
     <?php
     }
     ?>
@@ -77,7 +82,7 @@ if (!empty($posts)) {
                         echo $post->getUser();
                     } ?>
                 </div>
-                <div>le <?= $post->getCreationdate() ?></div>
+                <div>le <?= $post->getCreationdate(); echo $post->getModifiedMessageDate() !== null ? " - Modifier le : ". $post->getModifiedMessageDate() : ""; ?></div>
                 <div class="afficher-topicMessage<?= $post->getId() ?>">
                     <div><?= htmlspecialchars_decode($post->getMessage()) ?></div>
                     <?php
@@ -96,10 +101,15 @@ if (!empty($posts)) {
                 <?php
                 if (App\Session::isAdmin() || (!$topic->getClosed() && ($post->getUser() && (App\Session::getUser() && App\Session::getUser()->getId() === $post->getUser()->getId())))) {
                 ?>
-                    <form class="modifier-topicMessage<?= $post->getId() ?>" method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
-                        <input id="message" class="post" name="message" value="<?= $post->getMessage() ?>">
-                        <button class="formulaire-btn" type="submit" name="modifyTopicMessage" id="submit">Modifier le message</button>
-                    </form>
+                    <div class="modifier-topicMessage<?= $post->getId() ?>">
+                        <form method="POST" action="index.php?ctrl=post&action=modifyTopicMessage&id=<?= $post->getId() ?>" enctype="multipart/form-data">
+                            <input id="message" class="post" name="message" value="<?= $post->getMessage() ?>">
+                            <button class="formulaire-btn" type="submit" name="modifyTopicMessage" id="submit">Modifier le message</button>
+                        </form>
+                        <button onclick="changeStyle('modifier-topicMessage<?= $post->getId() ?>', 'afficher-topicMessage<?= $post->getId() ?>')">
+                            Annuler
+                        </button>
+                    </div>
                 <?php
                 }
                 ?>
