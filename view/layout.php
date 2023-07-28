@@ -44,11 +44,11 @@
             <header>
                 <nav>
                     <div id="nav-left">
-                        <a href="index.php">Accueil</a>
+                        <a href="index.php?ctrl=home">Accueil</a>
                         <?php
                         if (App\Session::isAdmin()) {
                         ?>
-                            <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
+                            <a href="index.php?ctrl=home&action=users">Voir la liste des utilisateurs</a>
 
                         <?php
                         }

@@ -19,7 +19,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
     {
         if (Session::getUser()) {
             SESSION::addFlash('error', "<div class='message'>Vous êtes déjà inscrit et connecté</div>");
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
         if (isset($_POST['submitSignUp'])) {
             // Filtre
@@ -77,7 +77,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
         if (Session::getUser()) {
             SESSION::addFlash('error', "<div class='message'>Vous êtes déjà connecté</div>");
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
         if (isset($_POST['submitLogin'])) {
             // Filtre
@@ -115,7 +115,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                             // placer l'utilisateur en Session
                             Session::setUser($user);
                             SESSION::addFlash('success', "<div class='message'>Connexion réussie</div>");
-                            $this->redirectTo("index.php");
+                            $this->redirectTo("home");
                         } else {
                             SESSION::addFlash('error', "<div class='message'>Ce compte est banni</div>");
                             $this->redirectTo("security", "login");
@@ -163,7 +163,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 $user = $userManager->findUserByIdDateFR($id);
                 if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
-                    $this->redirectTo('Home');
+                    $this->redirectTo('home');
                 }
 
                 return [
@@ -179,7 +179,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
         } elseif (Session::getUser()) {
             $this->redirectTo("security", "user", Session::getUser()->getId());
         } else {
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
     }
 
@@ -194,7 +194,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 $user = $userManager->findOneById($id);
                 if (!$user) {
                     SESSION::addFlash('error', "<div class='message'>Cet utilisateur n'existe pas</div>");
-                    $this->redirectTo('Home');
+                    $this->redirectTo('home');
                 }
 
                 // On supprime l'utilisation avec l'id et la méthode delete
@@ -205,14 +205,14 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 }
                 // Redirection
                 SESSION::addFlash('success', "<div class='message'>Le compte utilisateur a été supprimé</div>");
-                $this->redirectTo("Home");
+                $this->redirectTo("home");
             } else {
                 SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
                 $this->redirectTo("security", "user");
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
     }
 
@@ -232,7 +232,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                     // Vérifie que l'utilisateur existe sinon on redirige
                     if (!$user) {
                         SESSION::addFlash('error', "<div class='message'>L'utilisateur n'existe pas</div>");
-                        $this->redirectTo("Home");
+                        $this->redirectTo("home");
                     }
                     // Vérifie que $seconde soit un entier supérieur
                     if ($seconde < 0) {
@@ -246,12 +246,12 @@ class SecurityController extends AbstractController implements ControllerInterfa
                     $this->redirectTo("security", "user", $id);
                 } else {
                     SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
-                    $this->redirectTo("Home");
+                    $this->redirectTo("home");
                 }
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé ou cet utilisateur n'existe pas</div>");
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
     }
 
@@ -277,12 +277,12 @@ class SecurityController extends AbstractController implements ControllerInterfa
                     $this->redirectTo("security", "login");
                 } else {
                     SESSION::addFlash('error', "<div class='message'>Erreur filtre</div>");
-                    $this->redirectTo("Home");
+                    $this->redirectTo("home");
                 }
             }
         } else {
             SESSION::addFlash('error', "<div class='message'>Action non autorisé</div>");
-            $this->redirectTo("Home");
+            $this->redirectTo("home");
         }
     }
 
