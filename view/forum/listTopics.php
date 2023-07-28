@@ -51,7 +51,7 @@ if (!empty($topics)) {
                         } ?></td>
                     <td><?= $topic->getCreationdate() ?></td>
                     <td><?= $topic->getMessagecount() ?></td>
-                    <td>date</td>
+                    <td><?= $topic->getLastPostDate() ? $topic->getLastPostDate() : "Pas de réponse" ?></td>
                     <td>
                         <?php
                         if ($topic->getClosed()) {
