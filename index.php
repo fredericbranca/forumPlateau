@@ -7,7 +7,7 @@
     define('VIEW_DIR', BASE_DIR."view/");     //le chemin où se trouvent les vues
     define('PUBLIC_DIR', "public");     //le chemin où se trouvent les fichiers publics (CSS, JS, IMG)
 
-    define('DEFAULT_CTRL', 'home');//nom du contrôleur par défaut
+    define('DEFAULT_CTRL', 'topic');//nom du contrôleur par défaut
     define('ADMIN_MAIL', "admin@gmail.com");//mail de l'administrateur
 
     require("app/Autoloader.php");
@@ -21,7 +21,7 @@
 
 //---------REQUETE HTTP INTERCEPTEE-----------
     $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut
-    //ex : index.php?ctrl=home
+    //ex : index.php?ctrl=topic
     if(isset($_GET['ctrl'])){
         $ctrlname = $_GET['ctrl'];
     }

@@ -9,7 +9,7 @@
         // Supprime la session si l'user existe pas
         if (!$userExist) {
             App\Session::unsetUser();
-            header("Location:index.php?ctrl=home");
+            header("Location:index.php?ctl=topic");
         }
     }
 ?>
@@ -44,7 +44,7 @@
             <header>
                 <nav>
                     <div id="nav-left">
-                        <a href="index.php?ctrl=home">Accueil</a>
+                        <a href="index.php?ctrl=topic">Accueil</a>
                         <?php
                         if (App\Session::isAdmin()) {
                         ?>

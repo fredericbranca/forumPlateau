@@ -7,11 +7,11 @@
         
         public function redirectTo($ctrl = null, $action = null, $id = null){
 
-            if($ctrl != "home"){
+            if($ctrl != "topic"){
                 $url = $ctrl ? "?ctrl=" . $ctrl : "";
                 $url.= $action ? "&action=" . $action : "";
                 $url.= $id ? "&id=" . $id : "";
-            } else $url = "index.php?ctrl=home";
+            } else $url = "index.php?ctrl=topic";
 
             header("Location: $url");
             die();
