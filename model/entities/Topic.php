@@ -13,6 +13,7 @@
         private $creationdate;
         private $closed;
         private $messagecount;
+        private $lastPostDate;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -123,7 +124,7 @@
          * Get the value of creationdate
          */ 
         public function getCreationdate(){
-            $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+            $formattedDate = $this->creationdate->format("d/m/Y à H\hi");
             return $formattedDate;
         }
 
@@ -173,6 +174,26 @@
         public function setMessagecount($messagecount)
         {
                 $this->messagecount = $messagecount;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of lastPostDate
+         */ 
+        public function getLastPostDate()
+        {
+                return $this->lastPostDate;
+        }
+
+        /**
+         * Set the value of lastPostDate
+         *
+         * @return  self
+         */ 
+        public function setLastPostDate($lastPostDate)
+        {
+                $this->lastPostDate = $lastPostDate;
 
                 return $this;
         }
