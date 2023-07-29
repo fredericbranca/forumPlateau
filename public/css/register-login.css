@@ -1,0 +1,137 @@
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme='light'] {
+    /* bg color */
+    --bg-color-1: #D4DFE1;
+    --bg-color-2: #B6C4C7;
+    --bg-color-3: #67797B;
+    --bg-color-4: #054342;
+    --bg-color-5: #052011;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+
+#wrapper[data-theme='dark'] {
+    /* bg color */
+    --bg-color-1: #9aadb1;
+    --bg-color-2: #839599;
+    --bg-color-3: #3a4647;
+    --bg-color-4: #052221;
+    --bg-color-5: #000000;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+h1,
+h2 {
+    text-align: center;
+    color: var(--font-color-1);
+    background-color: var(--bg-color-2);
+    padding: 10px;
+    font-weight: 700;
+}
+
+form {
+    max-width: 320px;
+    margin: 20px auto;
+    background-color: var(--bg-color-3);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+input[type='email'],
+input[type='text'],
+input[type='password'] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+input[type='email']::placeholder,
+input[type='text']::placeholder,
+input[type='password']::placeholder {
+    color: var(--bg-color-5);
+}
+
+button {
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.not-register,
+.registered {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.btn-register-link,
+.btn-connexion-link {
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
+    border-radius: 4px;
+    padding: 12px 20px;
+    min-width: 280px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media only screen and (min-width: 800px) {
+
+    h1,
+    h2 {
+        padding: 20px;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    input[type='email'],
+    input[type='text'],
+    input[type='password'] {
+        font-size: 18px;
+    }
+
+    button {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .not-register,
+    .registered {
+        padding: 50px;
+    }
+
+    .btn-register-link,
+    .btn-connexion-link {
+        font-size: 22px;
+        font-weight: 600;
+        width: 560px;
+    }
+
+    button:hover,
+    .btn-register-link:hover,
+    .btn-connexion-link:hover {
+        background-color: var(--bg-color-5);
+    }
+}
