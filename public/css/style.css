@@ -1,16 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;400;500;600;700;800;900&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Montserrat';
 }
 
-#mainpage {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    justify-content: space-between;
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme='light'] {
+    /* bg color */
+    --bg-color-1: #D4DFE1;
+    --bg-color-2: #B6C4C7;
+    --bg-color-3: #67797B;
+    --bg-color-4: #054342;
+    --bg-color-5: #052011;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+
+#wrapper[data-theme='dark'] {
+    /* bg color */
+    --bg-color-1: #9aadb1;
+    --bg-color-2: #9baaad;
+    --bg-color-3: #3a4647;
+    --bg-color-4: #052221;
+    --bg-color-5: #000000;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+
+#wrapper {
+    font-size: 12px;
+    background-color: var(--bg-color-1);
+    color: var(--font-color-1);
 }
 
 #forum {
-    flex: 1;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styles pour l'overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-color-1);
+    z-index: -1;
+}
+
+/* Styles pour les écrans de taille inférieure à 321px (Petit mobile) */
+#navbar {
+    display: flex;
+}
+
+.hamburger {
+    margin-left: 10px;
+    float: left;
+    transition: opacity .3s;
+    z-index: 2;
+}
+
+.hamburger .line {
+    width: 50px;
+    height: 7px;
+    margin: 8px auto;
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+}
+
+.hamburger .line:nth-child(1),
+.hamburger .line:nth-child(3) {
+    background-color: var(--bg-color-4);
+}
+
+.hamburger .line:nth-child(2) {
+    background-color: var(--bg-color-5);
+}
+
+.hamburger.open .line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open .line:nth-child(1) {
+    transform: translateY(17px) rotate(45deg);
+    background-color: var(--bg-color-5);
+}
+
+.hamburger.open .line:nth-child(3) {
+    transform: translateY(-13px) rotate(-45deg);
+    background-color: var(--bg-color-5);
+}
+
+.nav-links {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--bg-color-4);
+    width: 85%;
+    height: 100vh;
+    flex-direction: column;
+    transition: all 2s ease-in-out;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    padding-top: 40%;
+}
+
+.nav-links li {
+    padding: 5% 50px;
+    width: 100%;
+}
+
+.nav-links li a {
+    color: var(--font-color-2);
+    text-decoration: none;
+    margin: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#navbar {
+    transition: all 2s ease-in-out;
+}
+
+/* Affiche le bandeau avec la classe open et utilise l'animation fade */
+.nav-links.open {
+    display: flex;
+    animation: fade .5s;
+    z-index: 1;
+}
+
+@keyframes fade {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Forum */
+#forum {
+    background-color: var(--bg-color-3);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
+    text-align: center;
+    padding: 10px;
+    width: 100vw;
+}
+
+footer a {
+    color: var(--font-color-2);
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+/* Media query pour les écrans de taille supérieure à 499px et inférieure à 800px (mobile et tablette) */
+@media only screen and (min-width: 499px) and (max-width: 799px) {
+    .nav-links li a {
+        font-size: 18px;
+    }
+
+    .nav-links ul {
+        padding-top: 20%;
+    }
+}
+
+/* Media query pour les écrans de taille supérieure à 800px (grand écran)) */
+@media only screen and (min-width: 800px) {
+    header {
+        height: 50px;
+        background-color: var(--bg-color-4);
+    }
+
+    #navbar {
+        display: block;
+        width: 100vw;
+        height: 50px;
+        transition: none;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    .nav-links {
+        display: flex;
+        width: 100vw;
+        height: 50px;
+        transition: none;
+    }
+
+    .nav-links ul {
+        height: 50px;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10%;
+    }
+
+    .nav-links li {
+        padding: 0;
+        width: auto;
+    }
+
+    .nav-links li a {
+        font-size: 18px;
+        color: var(--font-color-2);
+        text-decoration: none;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .nav-links li a:hover {
+        color: var(--bg-color-2);
+    }
+
+    .nav-links.open {
+        display: flex;
+        animation: none;
+        z-index: 1;
+    }
+
+    footer p, footer a {
+        font-size: 16px;
+    }
 }
