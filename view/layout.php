@@ -21,6 +21,7 @@ if (App\Session::getUser()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tiny.cloud/1/zg3mwraazn1b2ezih16je1tc6z7gwp5yd4pod06ae5uai8pa/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="<?= PUBLIC_DIR ?>/css/style.css">
@@ -35,7 +36,7 @@ if (App\Session::getUser()) {
 </head>
 
 <body>
-    <div id="wrapper" data-theme="dark">
+    <div id="wrapper" data-theme="light">
 
         <div id="mainpage">
             <header>
@@ -47,23 +48,29 @@ if (App\Session::getUser()) {
                     </div>
                     <nav id="myNav" class="nav-links">
                         <ul>
-                            <li><a href="index.php?ctrl=topic">Accueil</a></li>
-                            <li><a href="index.php?ctrl=categorie">La liste des Catégories</a></li>
-                            <?php
-                            if (App\Session::isAdmin()) {
-                            ?>
-                                <li><a href="index.php?ctrl=security&action=users">Voir la liste des utilisateurs</a></li>
-                            <?php 
-                            }
-                            if (App\Session::getUser()) { ?>
-                                <li><a href="index.php?ctrl=security&action=user"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a></li>
-                                <li><a href="index.php?ctrl=security&action=logout">Déconnexion</a></li>
-                            <?php
-                            } else { ?>
-                                <li><a href="index.php?ctrl=security&action=login">Connexion</a></li>
-                                <li><a href="index.php?ctrl=security&action=register">Inscription</a></li>
-                            <?php
-                            } ?>
+                            <div class="nav-row">
+                                <li><a href="index.php?ctrl=topic">Accueil</a></li>
+                                <li><a href="index.php?ctrl=categorie">Catégories</a></li>
+
+                                <?php
+                                if (App\Session::isAdmin()) {
+                                ?>
+                                    <li><a href="index.php?ctrl=security&action=users">Utilisateurs</a></li>
+                                <?php
+                                } ?>
+                            </div>
+                            <div class="nav-row">
+                                <?php
+                                if (App\Session::getUser()) { ?>
+                                    <li><a href="index.php?ctrl=security&action=user"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a></li>
+                                    <li><a href="index.php?ctrl=security&action=logout">Déconnexion</a></li>
+                                <?php
+                                } else { ?>
+                                    <li><a href="index.php?ctrl=security&action=login">Connexion</a></li>
+                                    <li><a href="index.php?ctrl=security&action=register">Inscription</a></li>
+                                <?php
+                                } ?>
+                            </div>
                         </ul>
                     </nav>
                 </div>
