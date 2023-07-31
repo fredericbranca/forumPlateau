@@ -1,0 +1,132 @@
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme='light'] {
+    /* bg color */
+    --bg-color-1: #D4DFE1;
+    --bg-color-2: #B6C4C7;
+    --bg-color-3: #67797B;
+    --bg-color-4: #054342;
+    --bg-color-5: #052011;
+    --bg-color-5-hover: #010c0c;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+
+#wrapper[data-theme='dark'] {
+    /* bg color */
+    --bg-color-1: #7d898b;
+    --bg-color-2: #5e7074;
+    --bg-color-3: #3a4647;
+    --bg-color-4: #052221;
+    --bg-color-5: #010c0c;
+    --bg-color-5-hover: #000000;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+    --font-color-3: #d9ebe2;
+}
+
+.responsive-table {
+    max-width: 800px;
+    background-color: var(--bg-color-5);
+    margin-bottom: 30px;
+}
+
+.topicTable {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.topicTable ul {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgb(112, 112, 112);
+    gap: 1px;
+    padding: 10px;
+}
+
+ul, li {
+    list-style: none;
+}
+
+.header-topic {
+    display: flex;
+    flex-direction: column;
+}
+
+.infos-topic {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .topicList li {
+    
+} */
+
+.titre {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--font-color-3);
+    padding-bottom: 5px;
+}
+
+.text-topic {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.fa-solid {
+    color: var(--font-color-2);
+    font-size: 16px;
+}
+
+@media only screen and (min-width: 800px) {
+    h1 {
+        padding: 0;
+    }
+    
+    .header {
+        padding: 0;
+    }
+
+    .responsive-table {
+        max-width: 100vw;
+        background-color: var(--bg-color-5);
+        margin: 0 10%;
+        margin-bottom: 30px;
+    }
+
+    .topicTable ul {
+        flex-direction: row;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .topicTable ul:first-child, .responsive-table {
+        border-radius: 10px;
+    }
+
+    li:last-of-type .delete-btn {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .topicTable ul:hover {
+        background-color: var(--bg-color-5-hover);
+    }
+
+    .topicTable ul:last-of-type:hover {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+}
