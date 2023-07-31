@@ -30,7 +30,7 @@ if (!empty($topics)) {
                 App\Session::renameOnlyAdmin($topic->getUser());
             ?>
                 <ul onclick="document.location = 'index.php?ctrl=post&action=listPostsByTopic&id=<?= $topic->getId() ?>'">
-                    <div class="header-topic">
+                    <div class="info-topic">
                         <li class="text-topic">
                             <?= $topic->getCategorie() ?>
                         </li>
@@ -45,29 +45,26 @@ if (!empty($topics)) {
                             } ?>
                             - <?= $topic->getCreationdate() ?>
                         </li>
-                    </div>
-                    <div class="infos-topic">
                         <li class="text-topic">
                             <?= $topic->getMessagecount() < 1 ? "0 réponse" : $topic->getMessagecount() . " réponses" ?>
                             <?= $topic->getLastPostDate() ? " - " . $topic->getLastPostDate() . "</li>" : "" ?>
                             <!-- </li> -->
                     </div>
-                </ul>
-                <!-- Si l'user en session a le rôle admin -->
-                <?php if (App\Session::isAdmin()) { ?>
-                    <li>
+                    <!-- Si l'user en session a le rôle admin -->
+                    <?php if (App\Session::isAdmin()) { ?>
                         <!-- Bouton pour supprimer le topic -->
                         <form method="POST" action="index.php?ctrl=topic&action=deleteTopic&id=<?= $topic->getId() ?>" enctype="multipart/form-data">
-                            <button class="delete-btn" type="submit" name="deleteTopic" id="submit">Supprimer le topic</button>
+                            <button class="delete-btn" type="submit" name="deleteTopic" id="submit"><span>Supprimer le topic</span></button>
                         </form>
-                    </li>
-                <?php } ?>
-            <?php }
-        } else { ?>
-            <div>Aucun topic existant dans cette catégorie</div>
-        <?php } ?>
+                    <?php } ?>
+                </ul>
+            <?php } ?>
         </div>
     </div>
+<?php
+} else { ?>
+    <div class="no-topic">Aucun topic existant dans cette catégorie</div>
+<?php } ?>
 
-    <?php
-    $style = "topics";
+<?php
+$style = "topics";
