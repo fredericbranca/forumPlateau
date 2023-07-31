@@ -36,7 +36,7 @@ if (App\Session::getUser()) {
 </head>
 
 <body>
-    <div id="wrapper" data-theme="light">
+    <div id="wrapper" data-theme="dark">
 
         <div id="mainpage">
             <header>
@@ -91,6 +91,13 @@ if (App\Session::getUser()) {
     </div>
     <script type="text/javascript" src="<?= PUBLIC_DIR ?>/js/script.js"></script>
     <script type="text/javascript" src="<?= PUBLIC_DIR ?>/js/forum-height.js"></script>
+    <?php
+    if (isset($js)) {
+    ?>
+        <script type="text/javascript" src="<?= PUBLIC_DIR ?>/js/<?= $js ?>.js"></script>
+    <?php
+    }
+    ?>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
     <script>
@@ -117,7 +124,14 @@ if (App\Session::getUser()) {
                     'bold italic backcolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
                     'removeformat | help',
-                content_css: '//www.tiny.cloud/css/codepen.min.css'
+                content_css: '//www.tiny.cloud/css/codepen.min.css',
+
+                // Ajout de css sur le formulaire
+                content_style: `
+                .mce-content-body:not([dir=rtl])[data-mce-placeholder]:not(.mce-visualblocks)::before {
+                left: 10px;
+                }
+                `
             });
         })
 
