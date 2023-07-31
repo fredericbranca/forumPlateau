@@ -47,15 +47,16 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
   CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.post : ~5 rows (environ)
 INSERT INTO `post` (`id_post`, `topic_id`, `user_id`, `message`, `creationdate`, `modifiedmessagedate`) VALUES
-	(78, 24, 6, '&#60;p&#62;&#60;strong&#62;bonjour&#60;/strong&#62;&#60;/p&#62;', '2023-07-25 13:30:36', '2023-07-28 11:30:43'),
+	(78, 24, 6, '&#60;h1&#62;&#60;span style=&#34;background-color: #000000;&#34;&#62;&#60;em&#62;Bonjour&#60;/em&#62;&#60;/span&#62;&#60;/h1&#62;&#60;p&#62;Ceci est un test&#60;/p&#62;&#60;ul style=&#34;list-style-type: square;&#34;&#62;&#60;li&#62;14&#60;/li&#62;&#60;li&#62;2&#60;/li&#62;&#60;li&#62;3&#60;/li&#62;&#60;li&#62;4&#60;/li&#62;&#60;li&#62;Test&#60;/li&#62;&#60;/ul&#62;', '2023-07-25 13:30:36', '2023-07-31 18:50:22'),
 	(79, 24, 6, '&#60;p&#62;freg gfre fr&#60;/p&#62;', '2023-07-25 16:07:50', NULL),
 	(82, 26, NULL, '&#60;p&#62;&#60;em&#62;ezaeazeaze&#60;/em&#62;&#60;/p&#62;', '2023-07-26 10:09:30', NULL),
 	(88, 24, 7, '&#60;p&#62;htrejetj&#60;/p&#62;', '2023-07-26 14:11:35', '2023-07-28 11:39:59'),
-	(89, 26, 6, '&#60;p&#62;Test&#60;/p&#62;', '2023-07-27 22:45:54', NULL);
+	(89, 26, 6, '&#60;p&#62;Test&#60;/p&#62;', '2023-07-27 22:45:54', NULL),
+	(93, 24, 6, '&#60;p&#62;test&#60;/p&#62;', '2023-07-31 20:04:24', NULL);
 
 -- Listage de la structure de table forum_fred. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -72,14 +73,15 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `cat_id` (`categorie_id`) USING BTREE,
   CONSTRAINT `FK_sujet_categorie` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`),
   CONSTRAINT `FK_sujet_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table forum_fred.topic : ~4 rows (environ)
 INSERT INTO `topic` (`id_topic`, `categorie_id`, `user_id`, `titre`, `message`, `creationdate`, `modifiedmessagedate`, `closed`) VALUES
-	(24, 1, 7, 'test', '&#60;p&#62;test&#60;/p&#62;', '2023-07-25 08:38:49', '2023-07-28 11:56:01', 0),
+	(24, 1, 7, 'test', '&#60;p&#62;test&#60;/p&#62;', '2023-07-25 08:38:49', '2023-07-28 11:56:01', 1),
 	(25, 2, 6, 'gebet', '&#60;p&#62;bethne&#60;/p&#62;', '2023-07-25 15:59:15', NULL, 0),
-	(26, 4, NULL, 'Bonjour tout le monde', '&#60;p&#62;Comment allez vous&#38;nbsp; ?&#60;/p&#62;', '2023-07-26 10:09:15', NULL, 0),
-	(28, 1, 6, 'test', '&#60;p&#62;Bonjour&#60;/p&#62;', '2023-07-28 09:58:25', '2023-07-28 13:27:45', 0);
+	(26, 4, NULL, 'Bonjour tout le monde', '&#60;p&#62;Comment allez vous&#38;nbsp; ?&#38;nbsp;&#38;nbsp;&#60;/p&#62;', '2023-07-26 10:09:15', '2023-07-31 15:36:51', 0),
+	(28, 1, 6, 'test', '&#60;p&#62;Bonjour&#60;/p&#62;', '2023-07-28 09:58:25', '2023-07-28 13:27:45', 0),
+	(29, 5, 6, 'NOuveau test', '&#60;p&#62;Bonjour, je vais cuisiner des tacos !&#60;/p&#62;', '2023-07-30 01:46:45', NULL, 0);
 
 -- Listage de la structure de table forum_fred. user
 CREATE TABLE IF NOT EXISTS `user` (
