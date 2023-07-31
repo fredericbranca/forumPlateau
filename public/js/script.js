@@ -12,7 +12,7 @@ function toggleMenu() {
     if (!hamburgerButton.classList.contains('open')) {
         hamburgerButton.classList.add('open');
         navMenu.classList.add('open');
-        navOverlay.style.zIndex = 0;
+        navOverlay.style.zIndex = 1;
         navOverlay.style.display = 'block';
     } else {
         hamburgerButton.classList.remove('open');
