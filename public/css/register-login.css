@@ -18,11 +18,11 @@
 
 #wrapper[data-theme='dark'] {
     /* bg color */
-    --bg-color-1: #9aadb1;
-    --bg-color-2: #839599;
+    --bg-color-1: #7d898b;
+    --bg-color-2: #5e7074;
     --bg-color-3: #3a4647;
     --bg-color-4: #052221;
-    --bg-color-5: #000000;
+    --bg-color-5: #010c0c;
 
     /* Overlay color */
     --overlay-color-1: #67797be0;
@@ -30,7 +30,9 @@
     /* font color */
     --font-color-1: #000;
     --font-color-2: #FFF;
+    --font-color-3: #d9ebe2;
 }
+
 h1,
 h2 {
     text-align: center;
@@ -88,7 +90,8 @@ button {
     color: var(--font-color-2);
     border-radius: 4px;
     padding: 12px 20px;
-    min-width: 280px;
+    width: 100%;
+    max-width: 280px;
     display: block;
     text-align: center;
     text-decoration: none;
@@ -126,7 +129,8 @@ button {
     .btn-connexion-link {
         font-size: 22px;
         font-weight: 600;
-        width: 560px;
+        width: 100%;
+        max-width: 560px;
     }
 
     button:hover,
