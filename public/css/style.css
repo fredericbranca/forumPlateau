@@ -31,7 +31,7 @@
     --bg-color-2: #5e7074;
     --bg-color-3: #3a4647;
     --bg-color-4: #052221;
-    --bg-color-5: #000000;
+    --bg-color-5: #010c0c;
 
     /* Overlay color */
     --overlay-color-1: #67797be0;
@@ -39,18 +39,31 @@
     /* font color */
     --font-color-1: #000;
     --font-color-2: #FFF;
+    --font-color-3: #d9ebe2;
+
+    /* Bouton */
+    --btn-delete-1: #031616;
 }
 
 #wrapper {
     font-size: 12px;
-    background-color: var(--bg-color-1);
-    color: var(--font-color-1);
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
 }
 
 #forum {
     width: 100vw;
     display: flex;
     flex-direction: column;
+    background-color: var(--bg-color-3);
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 10px;
 }
 
 /* Styles pour l'overlay */
@@ -65,7 +78,7 @@
     z-index: -1;
 }
 
-/* Styles pour les écrans de taille inférieure à 321px (Petit mobile) */
+/* Styles pour les écrans de taille inférieure (petit mobile) */
 #navbar {
     display: flex;
 }
@@ -87,11 +100,11 @@
 
 .hamburger .line:nth-child(1),
 .hamburger .line:nth-child(3) {
-    background-color: var(--bg-color-4);
+    background-color: var(--bg-color-2);
 }
 
 .hamburger .line:nth-child(2) {
-    background-color: var(--bg-color-5);
+    background-color: var(--bg-color-3);
 }
 
 .hamburger.open .line:nth-child(2) {
@@ -161,11 +174,6 @@
     }
 }
 
-/* Forum */
-#forum {
-    background-color: var(--bg-color-3);
-}
-
 /* Footer */
 footer {
     background-color: var(--bg-color-4);
@@ -179,6 +187,29 @@ footer a {
     color: var(--font-color-2);
     text-decoration: none;
     margin: 0 5px;
+}
+
+/* Boutons */
+.delete-btn {
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-link {
+    background-color: var(--bg-color-4);
+    color: var(--font-color-2);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    height: 100%;
 }
 
 /* Media query pour les écrans de taille supérieure à 499px et inférieure à 800px (mobile et tablette) */
@@ -197,6 +228,10 @@ footer a {
     header {
         height: 50px;
         background-color: var(--bg-color-4);
+    }
+
+    .header {
+        margin: 30px 10%;
     }
 
     #navbar {
@@ -222,9 +257,17 @@ footer a {
         padding: 0;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        gap: 10%;
+        margin: 0 10%;
+        max-width: 100vw;
+        gap: 10px;
+    }
+
+    .nav-row {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
     }
 
     .nav-links li {
@@ -252,5 +295,36 @@ footer a {
 
     footer p, footer a {
         font-size: 16px;
+    }
+
+    /* Bouton */
+    .delete-btn {
+        background-color: var(--bg-color-4);
+        color: var(--font-color-2);
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        width: 100%;
+    }
+    
+    .delete-btn:hover {
+        background-color: var(--btn-delete-1);
+    }
+    
+    .btn-link {
+        background-color: var(--bg-color-4);
+        color: var(--font-color-2);
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        height: 100%;
+    }
+    
+    .btn-link:hover {
+        background-color: var(--btn-delete-1);
     }
 }
