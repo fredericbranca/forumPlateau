@@ -1,0 +1,58 @@
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme='light'] {
+    /* bg color */
+    --bg-color-1: #D4DFE1;
+    --bg-color-2: #B6C4C7;
+    --bg-color-3: #67797B;
+    --bg-color-4: #054342;
+    --bg-color-5: #052011;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+    --font-color-3: #c5b8b8;
+}
+
+#wrapper[data-theme='dark'] {
+    /* bg color */
+    --bg-color-1: #7d898b;
+    --bg-color-2: #5e7074;
+    --bg-color-3: #3a4647;
+    --bg-color-4: #052221;
+    --bg-color-5: #010c0c;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+    --font-color-3: #c5b8b8;
+}
+
+h1 {
+    margin: 30px 10%;
+    color: var(--font-color-2);
+}
+
+.list-categorie {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 30px 10%;
+}
+
+.categorie {
+    text-decoration: none;
+    width: fit-content;
+}
+
+.categorie span {
+    width: fit-content;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--font-color-2);
+}
+
+.categorie span:hover {
+    color: var(--font-color-3);
+    transform: scale(1.2);
+}
