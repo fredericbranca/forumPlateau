@@ -35,38 +35,89 @@
     --font-color-3: #d9ebe2;
 }
 
+[class^="modifier-topicMessage"] {
+    display: none;
+    padding: 0;
+}
+
+[class^="afficher-topicMessage"] {
+    display: block;
+}
+
+.no-topic, .no-message {
+    font-size: 18px;
+    margin: 50px 10px;
+}
+
 .responsive-table {
     max-width: 800px;
-    background-color: var(--bg-color-5);
+    background-color: var(--bg-color-3);
     margin-bottom: 30px;
 }
 
-.topicTable {
+.topicTable,
+.postTable {
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
-.topicTable ul {
+.topicTable ul,
+.postTable > ul {
     display: flex;
     flex-direction: column;
     border-top: 1px solid rgb(112, 112, 112);
     gap: 1px;
+}
+
+.topicTable ul div {
     padding: 10px;
 }
 
-ul, li {
+ul,
+li {
     list-style: none;
-}
-
-.header-topic {
-    display: flex;
-    flex-direction: column;
 }
 
 .infos-topic {
     display: flex;
     flex-direction: column;
+}
+
+.info-post {
+    padding: 10px;
+    min-height: 100px;
+}
+
+.utilisateur {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.date {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.mess {
+    margin: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.postTable {
+    background-color: var(--bg-color-3);
+}
+
+@media only screen and (max-width: 800px) {
+
+    .info-topic,
+    .postTable > ul {
+        background-color: var(--bg-color-5);
+    }
 }
 
 /* .topicList li {
@@ -91,19 +142,33 @@ ul, li {
 }
 
 @media only screen and (min-width: 800px) {
+    .no-topic, .no-message {
+        font-size: 18px;
+        margin: 0px 10%;
+    }
+
     h1 {
         padding: 0;
     }
-    
+
     .header {
         padding: 0;
     }
 
-    .responsive-table {
+    .responsive-table, .formulaire {
         max-width: 100vw;
         background-color: var(--bg-color-5);
         margin: 0 10%;
         margin-bottom: 30px;
+    }
+
+    .formulaire, .formulaire .btn  {
+        border-radius: 0 0 10px 10px;
+    }
+
+    .topicTable {
+        border-radius: 10px;
+        gap: 0;
     }
 
     .topicTable ul {
@@ -112,21 +177,47 @@ ul, li {
         cursor: pointer;
     }
 
-    .topicTable ul:first-child, .responsive-table {
+    .topicTable ul:first-child,
+    .info-topic,
+    .responsive-table {
         border-radius: 10px;
     }
 
-    li:last-of-type .delete-btn {
+    .topicTable ul:first-of-type .delete-btn {
+        border-top-right-radius: 10px;
+    }
+
+    .topicTable li:last-of-type .delete-btn {
         border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
     }
 
     .topicTable ul:hover {
-        background-color: var(--bg-color-5-hover);
+        background-color: var(--bg-color-5-hover) !important;
     }
 
     .topicTable ul:last-of-type:hover {
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
+
+    .info-post {
+        background-color: var(--bg-color-5);
+    }
+
+    #forum .responsive-table:first-of-type .postTable .info-post {
+        border-radius: 10px 10px 0 0;
+    }
+
+    [class^="modifier-topicMessage"] form .btn:last-of-type {
+        border-radius: 0 0 10px 10px;
+    }
+    
+    [class^="afficher-topicMessage"] .delete-btn {
+        border-radius: 0;
+    }
+
+    .postTable ul:last-of-type [class^="afficher-topicMessage"] button:last-child {
+        border-radius: 0 0 10px 10px;
+    }
+
 }

@@ -7,6 +7,10 @@
     font-family: 'Montserrat';
 }
 
+.tox-editor-container {
+    z-index: 0;
+}
+
 /* Couleur par défaut */
 :root,
 #wrapper[data-theme='light'] {
@@ -87,7 +91,7 @@
     margin-left: 10px;
     float: left;
     transition: opacity .3s;
-    z-index: 2;
+    z-index: 3;
 }
 
 .hamburger .line {
@@ -159,7 +163,7 @@
 .nav-links.open {
     display: flex;
     animation: fade .5s;
-    z-index: 1;
+    z-index: 2;
 }
 
 @keyframes fade {
@@ -190,11 +194,15 @@ footer a {
 }
 
 /* Boutons */
-.delete-btn {
+.delete-btn,
+.btn {
     background-color: var(--bg-color-4);
     color: var(--font-color-2);
-    border: none;
-    padding: 6px 10px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid #3d3d3d;
+    border-bottom: 1px solid #3d3d3d;
+    padding: 15px 10px;
     cursor: pointer;
     width: 100%;
 }
@@ -212,6 +220,16 @@ footer a {
     height: 100%;
 }
 
+/* Formualaire */
+.formulaire {
+    margin-bottom: 30px;
+}
+
+.mce-content-body:not([dir=rtl])[data-mce-placeholder]:not(.mce-visualblocks) {
+    left: 10px;
+    box-sizing: border-box;
+}
+
 /* Media query pour les écrans de taille supérieure à 499px et inférieure à 800px (mobile et tablette) */
 @media only screen and (min-width: 499px) and (max-width: 799px) {
     .nav-links li a {
@@ -225,6 +243,10 @@ footer a {
 
 /* Media query pour les écrans de taille supérieure à 800px (grand écran)) */
 @media only screen and (min-width: 800px) {
+    h1 {
+        font-size: xx-large;
+    }
+
     header {
         height: 50px;
         background-color: var(--bg-color-4);
@@ -290,27 +312,30 @@ footer a {
     .nav-links.open {
         display: flex;
         animation: none;
-        z-index: 1;
+        z-index: 2;
     }
 
-    footer p, footer a {
+    footer p,
+    footer a {
         font-size: 16px;
     }
 
     /* Bouton */
-    .delete-btn {
+    .delete-btn,
+    .btn {
         background-color: var(--bg-color-4);
         color: var(--font-color-2);
         border: none;
-        padding: 12px 20px;
+        padding: 6px 20px;
         cursor: pointer;
         width: 100%;
     }
-    
-    .delete-btn:hover {
+
+    .delete-btn:hover,
+    .btn:hover {
         background-color: var(--btn-delete-1);
     }
-    
+
     .btn-link {
         background-color: var(--bg-color-4);
         color: var(--font-color-2);
@@ -323,8 +348,15 @@ footer a {
         font-weight: 500;
         height: 100%;
     }
-    
+
     .btn-link:hover {
         background-color: var(--btn-delete-1);
+    }
+
+    /* Formualaire */
+    .formulaire {
+        margin: 0 10%;
+        max-width: 1340px;
+        margin-bottom: 30px;
     }
 }
