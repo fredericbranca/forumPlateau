@@ -138,9 +138,15 @@ class PostController extends AbstractController implements ControllerInterface
                         SESSION::addFlash('error', "<div class='message'>Le message ne doit pas être vide</div>");
                         $this->redirectTo('post', 'listPostsByTopic', $topicId);
                     }
+                    // Vérifie que le message n'est pas identique
+                    if ($post->getMessage() == $message) {
+                        SESSION::addFlash('error', "<div class='message'>Message non modifié car identique</div>");
+                        $this->redirectTo('post', 'listPostsByTopic', $topicId);
+                    }
                     // Modifie le message du post
                     $postManager->updatePostMessage($message, $messageId);
                     // Redirection
+                    SESSION::addFlash('success', "<div class='message'>Message modifié</div>");
                     $this->redirectTo('post', 'listPostsByTopic', $topicId);
                 } else {
                     SESSION::addFlash('error', "<div class='message'>Filtres non ok</div>");
