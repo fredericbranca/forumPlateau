@@ -17,7 +17,7 @@
             return [
                 "view" => VIEW_DIR."forum\listCategories.php",
                 "data" => [
-                    "categories" => $categorieManager->findAll(["nom", "DESC"])
+                    "categories" => $categorieManager->findAll(["nom", "ASC"])
                 ]
             ];
         
