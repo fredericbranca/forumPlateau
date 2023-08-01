@@ -27,6 +27,9 @@
     /* font color */
     --font-color-1: #000;
     --font-color-2: #FFF;
+
+    /* Bouton */
+    --btn-delete-1: #031616;
 }
 
 #wrapper[data-theme='dark'] {
@@ -273,6 +276,7 @@ footer a:hover {
 
 /* Media query pour les écrans de taille supérieure à 800px (grand écran)) */
 @media only screen and (min-width: 800px) {
+
     /* Dark mode / Light Mode */
     .switch {
         right: 5%;
@@ -348,7 +352,8 @@ footer a:hover {
         font-weight: 600;
     }
 
-    .nav-links li a:hover, .fa-user:hover {
+    .nav-links li a:hover,
+    .fa-user:hover {
         color: var(--bg-color-2) !important;
     }
 
