@@ -193,6 +193,10 @@ footer a {
     margin: 0 5px;
 }
 
+footer a:hover {
+    color: var(--font-color-3);
+}
+
 /* Boutons */
 .delete-btn,
 .btn {
@@ -305,8 +309,8 @@ footer a {
         font-weight: 600;
     }
 
-    .nav-links li a:hover {
-        color: var(--bg-color-2);
+    .nav-links li a:hover, .nav-links li a:hover span:hover {
+        color: var(--bg-color-2) !important;
     }
 
     .nav-links.open {
