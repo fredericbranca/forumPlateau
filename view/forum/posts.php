@@ -162,7 +162,9 @@ if ((!$topic->getClosed() && App\Session::getUser()) || App\Session::isAdmin()) 
     // Si le topic est fermé
 } elseif ($topic->getClosed()) {
 ?>
-    <p>Le topic est fermé.</p>
+    <div class="header">
+        <h2>Le topic est fermé</h2>
+    </div>
 <?php
     // Si l'utilisateur n'est pas inscrit
 } else {

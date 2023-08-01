@@ -5,8 +5,11 @@ $categories = $result["data"]['categories'];
 
 ?>
 
-<form class="formulaire" method="POST" action="index.php?ctrl=topic&action=createTopic" enctype="multipart/form-data">
-    <input class="titre" type="text" id="titre" name="titre" maxlength="50" required autocomplete="off" placeholder="Titre de la discussion">
+<div class="header">
+    <h1>Creation d'un nouveau sujet</h1>
+</div>
+<form class="create-topic" method="POST" action="index.php?ctrl=topic&action=createTopic" enctype="multipart/form-data">
+    <input type="text" id="titre" name="titre" maxlength="50" required autocomplete="off" placeholder="Titre de la discussion">
     <select name="categorie" id="categorie" required>
         <option value="">--Choisir une catégorie--</option>
         <?php
@@ -19,7 +22,7 @@ $categories = $result["data"]['categories'];
 
     </select>
     <textarea class="post" name='message' placeholder="Un message par jour éloigne l'ennui pour toujours ! Qu'avez-vous à dire aujourd'hui ? 🗓️😄"></textarea>
-    <button class="formulaire-btn" type="submit" name="createTopic" id="submit">Poster la discussion</button>
+    <button class="btn" type="submit" name="createTopic" id="submit">Poster la discussion</button>
 </form>
 
 <?php
