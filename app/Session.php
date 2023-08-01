@@ -39,7 +39,7 @@
         public static function renameOnlyAdmin($user){
             if ($user && $user->hasRole("ROLE_ADMIN")) {
                 $nickname = $user->getNickname();
-                $user->setNickname('<strong><span style="color: red;">' . $nickname . '</span></strong>');
+                $user->setNickname('<span style="color: red;">' . $nickname . '</span>');
             }
         }
 
