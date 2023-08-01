@@ -131,6 +131,9 @@ if (App\Session::getUser()) {
                 .mce-content-body:not([dir=rtl])[data-mce-placeholder]:not(.mce-visualblocks)::before {
                 left: 10px;
                 }
+                .mce-content-body {
+                    padding-left: 10px;
+                }
                 `
             });
         })
