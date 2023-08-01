@@ -66,7 +66,7 @@ input[type='password']::placeholder {
     color: var(--bg-color-5);
 }
 
-button {
+form button {
     background-color: var(--bg-color-4);
     color: var(--font-color-2);
     border: none;
@@ -115,7 +115,7 @@ button {
         font-size: 18px;
     }
 
-    button {
+    form button {
         font-size: 22px;
         font-weight: 600;
     }
@@ -133,7 +133,7 @@ button {
         max-width: 560px;
     }
 
-    button:hover,
+    form button:hover,
     .btn-register-link:hover,
     .btn-connexion-link:hover {
         background-color: var(--bg-color-5);
