@@ -5,11 +5,17 @@ if (App\Session::getUser()) {
     $sessionUserId = App\Session::getUser()->getId();
     // Utilise la method findOneById() du Manager
     $userManager = new Model\Managers\UserManager;
-    $userExist = $userManager->findOneById($sessionUserId);
-    // Supprime la session si l'user existe pas
+    $user = $userManager->findOneById($sessionUserId);
+    // Supprime la session si l'user existe pas ou si l'user est banni
     if (!$userExist) {
         App\Session::unsetUser();
         header("Location:index.php?ctl=topic");
+    } else if ($user) {
+        $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
+        if ($statut > new DateTime('now')) {
+            App\Session::unsetUser();
+            header("Location:index.php?ctl=topic");
+        }
     }
 }
 ?>
