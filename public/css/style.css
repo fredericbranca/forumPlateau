@@ -49,6 +49,7 @@
     --btn-delete-1: #031616;
 }
 
+
 #wrapper {
     font-size: 12px;
     background-color: var(--bg-color-4);
@@ -84,8 +85,31 @@
 
 /* Styles pour les écrans de taille inférieure (petit mobile) */
 #navbar {
+    position: relative;
     display: flex;
 }
+
+/* Bouton color theme */
+.switch {
+    position: absolute;
+    top: 26%;
+    right: 20px;
+}
+
+.switch button {
+    background-color: transparent;
+    border: none;
+}
+
+.switch .fa-solid {
+    font-size: 25px;
+}
+
+.switch .fa-moon {
+    display: none;
+}
+
+/* Hamburger */
 
 .hamburger {
     margin-left: 10px;
@@ -124,6 +148,8 @@
     transform: translateY(-13px) rotate(-45deg);
     background-color: var(--bg-color-5);
 }
+
+/* Navlink */
 
 .nav-links {
     display: none;
@@ -247,6 +273,19 @@ footer a:hover {
 
 /* Media query pour les écrans de taille supérieure à 800px (grand écran)) */
 @media only screen and (min-width: 800px) {
+    /* Dark mode / Light Mode */
+    .switch {
+        right: 5%;
+    }
+
+    .switch button {
+        cursor: pointer;
+    }
+
+    .switch button:hover {
+        transform: scale(1.25);
+    }
+
     h1 {
         font-size: xx-large;
     }
@@ -309,7 +348,7 @@ footer a:hover {
         font-weight: 600;
     }
 
-    .nav-links li a:hover, .nav-links li a:hover span:hover {
+    .nav-links li a:hover, .fa-user:hover {
         color: var(--bg-color-2) !important;
     }
 

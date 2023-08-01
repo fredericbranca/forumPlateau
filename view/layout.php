@@ -62,7 +62,7 @@ if (App\Session::getUser()) {
                             <div class="nav-row">
                                 <?php
                                 if (App\Session::getUser()) { ?>
-                                    <li><a href="index.php?ctrl=security&action=user"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a></li>
+                                    <li><a href="index.php?ctrl=security&action=user"><span class="fas fa-user">&nbsp;<?= App\Session::getUser() ?></span></a></li>
                                     <li><a href="index.php?ctrl=security&action=logout">Déconnexion</a></li>
                                 <?php
                                 } else { ?>
@@ -73,6 +73,9 @@ if (App\Session::getUser()) {
                             </div>
                         </ul>
                     </nav>
+                    <label class="switch">
+                        <button id="switchMode" class="checkbox" onclick="toggleLightDarkMode()"><i class="fa-solid fa-sun" style="color: #f5f910;"></i><i class="fa-solid fa-moon" style="color: #ffffff;"></i></button>
+                    </label>
                 </div>
             </header>
             <div class="overlay"></div>
