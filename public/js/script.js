@@ -4,6 +4,24 @@ function changeStyle(element1, element2) {
     document.getElementsByClassName(element2)[0].style.display = 'block';
 }
 
+function displayFormProfile(element) {
+    const displayElement = document.querySelector(element);
+    const elements = document.querySelectorAll("[class*=display-]");
+    elements.forEach(element => {
+        element.style.display = 'none';
+    });
+    displayElement.style.display = 'flex';
+}
+
+function hideFormProfile(element) {
+    const displayElement = document.querySelector(element);
+    const elements = document.querySelectorAll("[class*=display-]");
+    elements.forEach(element => {
+        element.style.display = 'block';
+    });
+    displayElement.style.display = 'none';
+}
+
 // NAVBAR - Fonction pour ouvrir ou fermer le bandeau de la navbar
 function toggleMenu() {
     const hamburgerButton = document.querySelector('.hamburger');
