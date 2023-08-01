@@ -247,6 +247,14 @@ li {
         border-radius: 0 0 10px 10px;
     }
 
+    [class^="modifier-topicMessage"] form button:last-child {
+        border-radius: 0 0 10px 10px;
+    }
+
+    .responsive-table ul:first-of-type, .responsive-table ul:first-child .info-post:first-of-type {
+        border-radius: 10px 10px 0 0
+    }
+
     /* Création sujet */
 
     .create-topic {
