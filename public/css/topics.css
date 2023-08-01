@@ -15,6 +15,7 @@
     /* font color */
     --font-color-1: #000;
     --font-color-2: #FFF;
+    --font-color-3: #d9ebe2;
 }
 
 #wrapper[data-theme='dark'] {
@@ -44,7 +45,8 @@
     display: block;
 }
 
-.no-topic, .no-message {
+.no-topic,
+.no-message {
     font-size: 18px;
     margin: 50px 10px;
 }
@@ -64,7 +66,7 @@
 }
 
 .topicTable ul,
-.postTable > ul {
+.postTable>ul {
     display: flex;
     flex-direction: column;
     border-top: 1px solid rgb(112, 112, 112);
@@ -115,14 +117,10 @@ li {
 @media only screen and (max-width: 800px) {
 
     .info-topic,
-    .postTable > ul {
+    .postTable>ul {
         background-color: var(--bg-color-5);
     }
 }
-
-/* .topicList li {
-    
-} */
 
 .titre {
     font-size: 20px;
@@ -141,28 +139,61 @@ li {
     font-size: 16px;
 }
 
+/* Création sujet */
+
+.create-topic form {
+    max-width: 320px;
+    margin: 20px auto;
+    background-color: var(--bg-color-3);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.create-topic input[type='text'],
+.create-topic select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.create-topic input[type='text']::placeholder {
+    color: var(--bg-color-5);
+}
+
 @media only screen and (min-width: 800px) {
-    .no-topic, .no-message {
+
+    .no-topic,
+    .no-message {
         font-size: 18px;
         margin: 0px 10%;
+        padding: 10px;
+        color: var(--font-color-2);
+    }
+
+    .no-message a {
+        text-decoration: none;
+        color: var(--font-color-2);
+    }
+
+    .no-message a:hover {
+        color: var(--font-color-3);
     }
 
     h1 {
         padding: 0;
     }
 
-    .header {
-        padding: 0;
-    }
-
-    .responsive-table, .formulaire {
+    .responsive-table,
+    .formulaire {
         max-width: 100vw;
         background-color: var(--bg-color-5);
         margin: 0 10%;
         margin-bottom: 30px;
     }
 
-    .formulaire, .formulaire .btn  {
+    .formulaire,
+    .formulaire .btn {
         border-radius: 0 0 10px 10px;
     }
 
@@ -208,10 +239,6 @@ li {
         border-radius: 10px 10px 0 0;
     }
 
-    [class^="modifier-topicMessage"] form .btn:last-of-type {
-        border-radius: 0 0 10px 10px;
-    }
-    
     [class^="afficher-topicMessage"] .delete-btn {
         border-radius: 0;
     }
@@ -220,4 +247,30 @@ li {
         border-radius: 0 0 10px 10px;
     }
 
+    /* Création sujet */
+
+    .create-topic {
+        max-width: 100vw;
+        margin: 0 10%;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .create-topic input[type='text'],
+    .create-topic select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: none;
+    }
+
+    .create-topic input[type='text']::placeholder {
+        color: var(--bg-color-5);
+    }
+
+    .create-topic .btn {
+        border-radius: 0 0 10px 10px;
+    }
 }
