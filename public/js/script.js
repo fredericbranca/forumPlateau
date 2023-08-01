@@ -40,8 +40,26 @@ function toggleMenu() {
     }
 }
 
-// NAVBAR //
+// Script pour activer ou désactiver le darkMode
+function toggleLightDarkMode() {
+    const container = document.getElementById('wrapper');
+    const dataTheme = container.getAttribute('data-theme');
+    const sun = document.querySelector('.fa-sun');
+    const moon = document.querySelector('.fa-moon');
+    if (dataTheme === 'dark') {
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+        container.setAttribute('data-theme', 'light');
+        window.sessionStorage.setItem('mode', 'light');
+    } else {
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+        container.setAttribute('data-theme', 'dark');
+        window.sessionStorage.setItem('mode', 'dark');
+    }
+}
 
+// NAVBAR //
 // Déclaration des élements
 const navOverlay = document.querySelector('.overlay');
 // Ecouteur d'évènement sur l'overlay
@@ -49,4 +67,19 @@ navOverlay.addEventListener('click', function (event) {
     toggleMenu();
 });
 
-//
+// Applique le theme dark ou light en fonction du mode enregistré en session
+if ("mode" in window.sessionStorage) {
+    const sun = document.querySelector('.fa-sun');
+    const moon = document.querySelector('.fa-moon');
+    const container = document.getElementById('wrapper');
+    if (window.sessionStorage.getItem("mode") == "dark") {
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+        container.setAttribute('data-theme', 'dark');
+    }
+    if (window.sessionStorage.getItem("mode") == "light") {
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+        container.setAttribute('data-theme', 'light');
+    }
+}
