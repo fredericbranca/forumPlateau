@@ -1,0 +1,105 @@
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme='light'] {
+    /* bg color */
+    --bg-color-1: #D4DFE1;
+    --bg-color-2: #B6C4C7;
+    --bg-color-3: #67797B;
+    --bg-color-4: #054342;
+    --bg-color-5: #052011;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+}
+
+#wrapper[data-theme='dark'] {
+    /* bg color */
+    --bg-color-1: #7d898b;
+    --bg-color-2: #5e7074;
+    --bg-color-3: #3a4647;
+    --bg-color-4: #052221;
+    --bg-color-5: #010c0c;
+
+    /* Overlay color */
+    --overlay-color-1: #67797be0;
+
+    /* font color */
+    --font-color-1: #000;
+    --font-color-2: #FFF;
+    --font-color-3: #d9ebe2;
+
+    /* Bouton */
+    --btn-delete-1: #031616;
+}
+
+.header-user {
+    padding: 10px;
+}
+
+.content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.bannir,
+.modif-pass,
+.modif-nickname {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input::placeholder {
+    color: var(--bg-color-5);
+}
+
+.hide {
+    display: none;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .header-user,
+    .content {
+        padding: 0;
+        margin: 30px 10%;
+    }
+
+    input {
+        border-radius: 4px;
+        margin-bottom: 0;
+    }
+
+    .btn, .delete-btn {
+        border-radius: 4px;
+    }
+
+    .content {
+        margin-top: 10px;
+    }
+
+    form div button:first-of-type, form input:last-of-type {
+        border-radius: 0;
+    }
+
+    form input:first-of-type {
+        border-radius: 10px 10px 0 0;
+    }
+
+    form div button:last-of-type {
+        border-radius: 0 0 10px 10px;
+    }
+}
