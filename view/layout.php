@@ -7,13 +7,15 @@ if (App\Session::getUser()) {
     $userManager = new Model\Managers\UserManager;
     $user = $userManager->findOneById($sessionUserId);
     // Supprime la session si l'user existe pas ou si l'user est banni
-    if (!$userExist) {
+    if (!$user) {
         App\Session::unsetUser();
         header("Location:index.php?ctl=topic");
-    } else if ($user) {
+    }
+    if ($user) {
         $statut = DateTime::createFromFormat('Y-m-d H:i:s', $user->getStatut());
         if ($statut > new DateTime('now')) {
             App\Session::unsetUser();
+            App\SESSION::addFlash('error', "<div class='message'>Vous êtes banni</div>");
             header("Location:index.php?ctl=topic");
         }
     }
@@ -80,7 +82,7 @@ if (App\Session::getUser()) {
                         </ul>
                     </nav>
                     <label class="switch">
-                        <button id="switchMode" class="checkbox" onclick="toggleLightDarkMode()"><i class="fa-solid fa-sun" style="color: #f5f910;"></i><i class="fa-solid fa-moon" style="color: #ffffff;"></i></button>
+                        <button id="switchMode" type="button" class="checkbox" onclick="toggleLightDarkMode()"><i class="fa-solid fa-sun" style="color: #f5f910;"></i><i class="fa-solid fa-moon" style="color: #ffffff;"></i></button>
                     </label>
                 </div>
             </header>
